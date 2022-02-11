@@ -1,0 +1,41 @@
+@use 'src/styles/vars';
+
+.background-404 {
+  background-image: url('../../assets/Scared.png');
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.errorpage-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 84vh;
+  padding: auto;
+  text-align: center;
+  border: 1px rgba(0, 4, 255, 0.2) solid;
+  background: vars.$baseColor;
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 80%;
+  margin: 5% auto;
+
+  
+  .error-title{
+    font-size: 5rem;
+  }
+  .error-subtitle{
+    margin-top: 2.5rem;
+    font-size: 2rem;
+  }
+}
+.error_404{
+  display: inline;
+  font-size:13rem;
+}

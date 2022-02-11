@@ -1,0 +1,193 @@
+.connect {
+  padding: 15px 0;
+  text-align: center;
+  .logo-rpg{
+    display: none;
+    width: 120px;
+  }
+}
+
+.title-logo {
+  max-width: 270px;
+}
+
+.img-log{
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.btn-log {
+  transform: skewX( 15deg);
+  font-family: system-ui;
+  font-size: 18px;
+  box-shadow: 10px 5px 5px #020202;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  z-index: 4000;
+}
+
+.form-log {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  margin: auto;
+  height: 500px;
+  max-height:80%;
+  max-width: 500px;
+  padding: 8px;
+  border: 2px solid black;
+  box-shadow: 0px 0px 20px 4px #000;
+  background-color: #34374e
+}
+
+.field-wrapper{
+  padding-left: 50px;
+  background-position: left center;
+  background-repeat:no-repeat;
+  background-size: auto 30px;
+  margin-bottom: 20px;
+  &.mail{
+    background-image:url('../../../public/images/icon-mail.png');
+  }
+  &.pwd{
+    background-image:url('../../../public/images/lock.png');
+  }
+}
+
+.button-wrapper{
+  margin:10px 0px;
+  button{
+    margin: 0 8px;
+  }
+}
+
+.connect-form, .modale-register {
+  display: flex;
+  flex-direction: column;
+  // justify-content: space-between;
+  align-items: center;
+}
+
+.register {
+  position: fixed;
+  z-index: 3;
+  border-radius: 5%;
+  line-height: 1;
+  padding: 32px 8px 6px;
+  right: 45px;
+  top: 70px;
+}
+.open-register {
+  display: flex;
+  justify-content: center;
+}
+
+.title-register {
+  background-color: #b9e523;
+  text-align: center;
+  text-transform: uppercase;
+  color: white;
+  font-size: 18px;
+  margin: 8px auto;
+}
+
+.pseudo-register {
+  margin: 16px;
+}
+
+.modale-register {
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top :0;
+  bottom: 0;
+  margin: auto;
+  max-width: 500px;
+  height: 615px;
+  max-height:80%;
+  padding: 20px;
+  border: 2px solid #000;
+  box-shadow: 0 0 20px 4px #000;
+  background:#7d7c66;
+  img{
+    width:100%;
+    margin-bottom: 25px;
+  }
+}
+
+.pseudo-register {
+  margin: 8px;
+}
+
+.mail-register {
+  margin: 8px;
+}
+.password-register {
+  margin: 8px;
+}
+.btn-register-send {
+  background-color: #b9e523;
+  margin: 12px auto;
+  width: 50%;
+  width: 80%;
+}
+
+@media screen and (max-width: 1100px) {
+  .connect {
+    .logo-rpg{
+      display: inline;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title-logo {
+    max-width: 170px;
+  }
+
+  .btn-log {
+    right: 20px;
+    top: 20px;
+  }
+
+  .form-log {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .connect-form {
+    flex-direction: column;
+    flex: auto;
+  }
+}
+
+.close-modal{
+  position: absolute;
+  top: 10px;
+  right:10px;
+  width: 15px;
+  height: 15px;
+  background: #ffffff;
+  color:#000000;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+}
+
+@media screen and (max-width: 550px){
+  .btn-log {
+    width: 50px;
+    height: 36px;
+    font-size: 0;
+    background-image: url('../../../public/images/logMobil.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+  }
+}

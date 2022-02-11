@@ -1,0 +1,151 @@
+body {
+  background-image: url('../../assets/game_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #f2f2f2;
+    color: #2d2d2d;
+  
+  // &:before {
+  //   content: "";
+  //   position: absolute;
+  //   width : 100%;
+  //   height: 100%;
+  //   background: inherit;
+  //   z-index: -1;
+
+  //   filter        : blur(10px);
+  //   -moz-filter   : blur(10px);
+  //   -webkit-filter: blur(10px);
+  //   -o-filter     : blur(10px);
+
+  //   transition        : all 2s linear;
+  //   -moz-transition   : all 2s linear;
+  //   -webkit-transition: all 2s linear;
+  //   -o-transition     : all 2s linear;
+  // }
+  width: 100vw;
+  min-height: 100vh;
+  padding-left: 20%;
+}
+
+.background-bg{
+  display: none;
+  background-image: url('../../assets/game_backgrounddark.png');
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+  top: 0;
+  left:0;
+  .dark &{
+    display: block;
+  }
+}
+
+.app.dark {
+
+  .lore , .contact,.update,.form-log,.title,.inner-panel{
+    background-color: rgba(12,13,13, 0.5);
+    color: #f2f2f2;
+  }
+
+  .character{
+    .panel .inner-panel{
+      background-color: rgba(12,13,13, 0.5);
+      color: #f2f2f2;
+
+    }
+  }
+
+  .fight-profile,.fight--logs, .fight--stats{
+    
+    background-color: rgba(12,13,13, 0.5);
+    color: #f2f2f2;
+
+  
+  }
+  .jobMain button, .jobSmall{
+    background-color: rgba(12,13,13, 0.5);
+    color: #f2f2f2;
+
+  }
+
+
+  .modale-register {
+    background-image: url('../../assets/game_backgrounddark.png');
+  }
+  .sun{
+    color: #f2f2f2;
+  }
+  .moon {
+   color: #f2f2f2;
+  }
+  .navBarContainer{
+    background-color: rgb(12 13 13 / 50%);
+  }
+  button{
+    background-color: rgb(12 13 13 / 50%);
+  }
+  .stuff{
+    background-color: rgb(12 12 12 / 50%);
+    color: #f2f2f2;
+  }
+  .shop-main {
+    background-color: rgb(12 12 12 / 50%);
+    color: #f2f2f2;
+  }
+  .money,.buying-modal  {
+    background-color: rgb(12 12 12 / 50%);
+    color: #f2f2f2;
+  }
+  .craft-container,.craft-display {
+    background-color: rgb(12 12 12 / 50%);
+    color: #f2f2f2;
+  }
+  .fight-title,.fight-container{
+    background-color: rgb(12 12 12 / 50%);
+    color: #f2f2f2;
+  }
+  .errorpage-content{
+    background-color: rgb(12 12 12 / 50%);
+    color: #f2f2f2;
+  }
+}
+
+.title-page{
+  margin: 25px 0;
+  text-align: center;
+  .title{
+    display: inline-block;
+    padding: 16px 30px;
+    background-color: rgba(148,207,255,.5);
+    border: 1px solid rgba(0,0,0,.164);
+    border-radius: 10px;
+    -webkit-box-shadow: inset 1px 1px 5px #fff;
+    box-shadow: inset 1px 1px 5px #fff;
+    font-size: 22px;
+    color: #ffffff;
+    line-height: 1;
+  }
+}
+
+@media screen and (max-width: 1240px) and (min-width: 1100px){
+  body {
+    padding-left: 15vw;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  body {
+    padding-left: 50px;
+  }
+}
+
+@media screen and (max-width: 550px){
+  body {
+    padding-left: 0;
+  }
+}

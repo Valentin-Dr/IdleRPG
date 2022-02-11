@@ -1,0 +1,431 @@
+.Chauve-souris {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/chauvesouris.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Chauve-souris--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/chauvesouris-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Corbeau {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/corbeau.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Corbeau--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/corbeau-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Slime {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/slime.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Slime--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/slime-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Ours {
+  width: 48px;
+  margin: auto;
+  height: 48px;
+  background: url('../assets/monsters/ours.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Ours--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/ours-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Glacier {
+  width: 48px;
+  margin: auto;
+  height: 48px;
+  background: url('../assets/monsters/glacier.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Glacier--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/glacier-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Ange {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/ange.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Ange--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/ange-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Statueantique {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/statueantique.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Statueantique--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/statueantique-attack.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Loeil {
+  margin: auto;
+  width: 42px;
+  height: 42px;
+  background: url('../assets/monsters/loeil.png');
+  animation: fourtyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Loeil--fight {
+  margin: auto;
+  width: 42px;
+  height: 42px;
+  background: url('../assets/monsters/loeil-attack.png');
+  animation: fourtyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Goblinsombre {
+  margin: auto;
+  width: 42px;
+  height: 42px;
+  background: url('../assets/monsters/goblinsombre.png');
+  animation: fourtyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Goblinsombre--fight {
+  margin: auto;
+  width: 42px;
+  height: 42px;
+  background: url('../assets/monsters/goblinsombre-attack.png');
+  animation: fourtyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Lenoyé {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/lenoye.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Lenoyé--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/lenoye-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Brigand {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/brigand.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Brigand--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/brigand-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Amphibien {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/amphibien.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Amphibien--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/amphibien-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Démonmatriarche {
+  width: 96px;
+  margin: auto;
+  height: 96px;
+  background: url('../assets/monsters/demonmatriarche.png');
+  animation: ninetySixPFourFrames 600ms steps(6) infinite;
+}
+
+.Démonmatriarche--fight {
+  margin: auto;
+  width: 96px;
+  height: 96px;
+  background: url('../assets/monsters/demonmatriarche-attack.png');
+  animation: ninetySixPFourFrames 600ms steps(6) infinite;
+}
+
+.Golemmineur {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/golemmineur.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Golemmineur--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/golemmineur-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Golemmatriarche {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/golemmatriarche.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Golemmatriarche--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/golemmatriarche-attack.png');
+  animation: seventyTwoPFourFrames 500ms steps(4) infinite;
+}
+
+.Nécromant {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/necromant.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Nécromant--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/necromant-attack.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Rhino {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/rhino.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Rhino--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/rhino-attack.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Amphibienmatriarche {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/amphibienmatriarche.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Amphibienmatriarche--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/amphibienmatriarche-attack.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Nordique {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/nordique.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Nordique--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/nordique-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Brigandarmé {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/brigandarme.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Brigandarmé--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/brigandarme-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Magematriarche {
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  background: url('../assets/monsters/magematriarche.png');
+  animation: sixtyFourPSixFrames 300ms steps(6) infinite;
+}
+
+.Magematriarche--fight {
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  background: url('../assets/monsters/magematriarche-attack.png');
+  animation: sixtyFourPSixFrames 300ms steps(6) infinite;
+}
+
+.Mimique {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/mimique.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Mimique--fight {
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  background: url('../assets/monsters/mimique-attack.png');
+  animation: fourtyEightPFourFrames 300ms steps(4) infinite;
+}
+
+.Oeilmatriarche {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/oeilmatriarche.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Oeilmatriarche--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/oeilmatriarche-attack.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+
+.Roidesgoblins {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/roidesgoblins.png');
+  animation: seventyTwoPFourFrames 500ms steps(4) infinite;
+}
+
+.Roidesgoblins--fight {
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  background: url('../assets/monsters/roidesgoblins-attack.png');
+  animation: seventyTwoPFourFrames 300ms steps(4) infinite;
+}
+// anim 48px 4 frames
+@keyframes fourtyEightPFourFrames {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: -192px;
+  }
+}
+
+//anim 42px 4 frames
+@keyframes fourtyTwoPFourFrames {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: -168px;
+  }
+}
+
+// anim 72px 4 frames
+@keyframes seventyTwoPFourFrames {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: -288px;
+  }
+}
+
+// anim 96px 4 frames
+@keyframes ninetySixPFourFrames {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: -576px;
+  }
+}
+
+@keyframes sixtyFourPSixFrames {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: -384px;
+  }
+}

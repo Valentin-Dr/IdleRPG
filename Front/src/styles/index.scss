@@ -1,0 +1,59 @@
+@use 'reset';
+@use 'vars';
+
+// or you can import your own font
+@font-face {
+  font-family: 'Roboto';
+  src: url('../assets/fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Retro';
+  src: url('../assets/fonts/Retro-Gaming.ttf');
+}
+
+body {
+  font-family: 'Retro', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  margin: 5px 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(148,207,255,.5);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(12,13,13,.2);
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(12,13,13,.5);
+}
+
+button{
+  padding: 8px 12px;
+  background: rgba(148,207,255,.5);
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 5px;
+  -webkit-box-shadow: inset 1px 1px 5px #fff;
+  box-shadow: inset 1px 1px 5px #fff;
+  color: white;
+}
+button, input[type="text"], input[type="password"], input[type="email"], input[type="number"]{
+  font-family: 'Retro', sans-serif;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="number"]{
+  padding: 8px;
+  border-radius: 5px;
+}
+

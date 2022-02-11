@@ -1,0 +1,216 @@
+@use 'src/styles/vars';
+
+.home{
+  position: relative;
+  padding: 100px 40px 40px;
+  margin: 85px 0 45px;
+}
+
+.main{
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.lore {
+  margin-right: 30px;
+  border: 1px rgba(3, 3, 3, 0.2) solid;
+  background: vars.$baseColor;
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  height: auto;
+  p {
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 2.1vw;
+    line-height: 1.2;
+  }
+}
+
+.demo-block{
+  flex-basis: 580px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+  
+.video {
+  position: relative;
+  padding-bottom: 55%;
+  z-index: 2;
+  iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+}
+
+.frame-wrapper{
+  width: 580px;
+  max-width: 100%;
+  margin: 0 auto;
+  &:not(:last-child) {
+    margin-bottom: 45px;
+  }
+  .frame {
+    width: 100%;
+    padding: 3.2%;
+    border-radius: 10px;
+    background-image: url('../../assets/IdleFrame580x335.png');
+    background-repeat: no-repeat;
+    background-size :100%;
+    .frame-inner{
+      width: 100%;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+  }
+}
+
+.slides {
+  display: block;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  .slide-container{
+    width: 300%;
+    display: flex;
+    flex-direction: row;
+    animation: glisse 20s infinite;
+    & .slide {
+      position: relative;
+      width: calc(100% / 3);
+      img{
+        width: 100%;
+        height: 125%;
+      }
+    }
+  }
+} 
+
+.contact {
+  border: 1px rgba(0, 4, 255, 0.2) solid;
+  background: vars.$baseColor;
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  height: auto;
+  text-align: center;
+  padding: 30px 20px;
+  h3{
+    margin-bottom: 30px;
+  }
+  .dev-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 10px;
+    .dev{
+      width: 150px;
+      padding: 0px 8px 20px;
+      .identity{
+        padding-bottom: 15px;
+      }
+      .medail-img{
+        width: 90px;
+        height: 90px;
+        padding: 10px;
+        margin: 0 auto;
+        border-radius: 90px;
+        border: 1px rgba(0, 4, 255, 0.2) solid;
+        background-color: vars.$baseColor;
+        box-shadow: inset 1px 1px 5px white;
+        img{
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+@keyframes glisse {
+ 0% {
+   transform: translateX(0);
+ }
+ 10% {
+   transform: translateX(0);
+ }
+ 33% {
+   transform: translateX(-33.33%);
+ }
+ 43% {
+   transform: translateX(-33.33%);
+ }
+ 66% {
+   transform: translateX(-66.66%);
+ }
+ 76% {
+   transform: translateX(-66.66%);
+ }
+ 100% {
+   transform: translateX(0);
+ }
+}
+
+.update {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ overflow: hidden;
+ display: flex;
+ font-size: 1.5rem;
+ border: 1px rgba(0, 4, 255, 0.2) solid;
+ background: vars.$baseColor;
+ box-shadow: inset 1px 1px 5px white;
+
+   .update-text {
+     white-space: nowrap;
+     animation: scrollTxt 25s linear infinite;
+   }
+}
+
+@keyframes scrollTxt {
+ 0%{
+   transform: translate(0, 0);
+ }
+ 100% {
+   transform: translate(-100%, 0)
+ }
+}
+
+@media screen and (max-width: 1100px) {
+  .home {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .main {
+    display: block;
+    max-width: 580px;
+    margin: 0 auto 45px;
+    .lore{
+      margin: 0 0 45px;
+    }
+  }
+  .lore p{
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .contact .dev-group .dev{
+    width: 115px;
+    .medail-img{
+      width: 75px;
+      height: 75px;
+    }
+    .identity{
+      font-size: 12px;
+    }
+  }
+}
+

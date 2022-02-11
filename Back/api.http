@@ -1,0 +1,24 @@
+@host=http://localhost:3000/user
+
+### Add a user
+POST {{host}}/subscribe
+Content-Type: application/json
+
+{
+    "email": "user@email.com",
+    "password": "123456",
+    "name": "user"
+}
+
+### Login
+POST {{host}}/login
+Content-Type: application/json
+
+{
+    "email": "user@email.com",
+    "password": "123456"
+}
+
+### Get infos
+GET {{host}}/infos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoyLCJpYXQiOjE2NDI3NjgxMDQsImV4cCI6MTY0Mjc4MjUwNH0.p1GeRDBSLWbVy0NgePQfrnmoR0vuj9g68MuF29RPOk8

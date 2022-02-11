@@ -1,0 +1,154 @@
+@use 'src/styles/vars';
+
+.background-shop {
+  background-image: url('../../assets/idleShop.png');
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+  top: 0;
+  left:0;
+}
+
+.shop {
+  &-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  &-main {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 70px;
+    padding: 2rem;
+    border: 1px rgba(0, 4, 255, 0.2) solid;
+    background: vars.$baseColor;
+    box-shadow: inset 1px 1px 5px white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  &-inventory{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+    flex-wrap: wrap;
+  }
+}
+.money {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  padding: 1.15rem;
+  width: 100px;
+  margin-left: 70%;
+  position: absolute;
+  top: 10%;
+  right: 40px;
+  text-align: center;
+  border: 1px rgba(0, 4, 255, 0.2) solid;
+  background: vars.$baseColor;
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.buying-modal{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  height: 210px;;
+  font-size: 1.3rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 50%;
+  border: 1px rgba(0, 4, 255, 0.2) solid;
+  background: rgba(91, 123, 149, 0.8);
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #fff;
+  img{
+    position: relative;
+    top: 7px;
+  }
+  .button-container {
+    text-align: center;
+    .buying-button {
+      padding: 0.8rem;
+      margin: 0.8rem;
+    }
+  }
+}
+.stuff{
+  width: 250px;
+  min-height: 33.33%;
+  max-height: 33.33%;
+  margin: 12px;
+  padding: 1em;
+  border: 1px rgba(0, 4, 255, 0.2) solid;
+  background: vars.$baseColor;
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  overflow: hidden;
+  .btn-wrapper{
+    text-align: center;
+  }
+  &-name{
+    margin: 10px 0;
+    text-align: center;
+  }
+  &-info{
+    display:flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+  }
+  &-stat{
+    flex-grow: 1;
+    padding-bottom: 3px;
+  }
+  &-val{
+    flex-shrink:1;
+    flex-grow:0;
+    padding-bottom: 3px;
+  }
+  &-money{
+    flex-basis:33px;
+    padding-left: 3px;
+  }
+  &-image{
+    width: auto;
+    height: 60px;
+    margin-bottom: 12px;
+    background-position: center;
+    background-size: auto 90%;
+    background-repeat: no-repeat;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .buying-modal{
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+  .money{
+    padding: 0.5rem;
+    top: 232px;
+    right: 20px;
+  }
+  .shop-main{
+    padding: 1rem;
+  }
+}
+
+
