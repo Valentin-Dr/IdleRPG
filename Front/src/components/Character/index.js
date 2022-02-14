@@ -19,62 +19,46 @@ const Inventory = () => {
   );
 
   //création objets JSX pour afficher les catégories dans l'inventaire
-  let jsxRessource = inventory.ressource.filter((object) => object.quantity > 0);
-  let jsxVivre = inventory.consommable.filter((object) => object.quantity > 0);
-
+  let jsxRessource = inventory.filter((object) => object.quantity > 0 && object.type_id === 2);
+  let jsxVivre = inventory.filter((object) => object.quantity > 0 && object.type_id === 1);
+  let jsxEquips = inventory.filter((object) => object.type_id === 3 || object.type_id === 4 || object.type_id === 5 || object.type_id === 6);
   jsxRessource = jsxRessource.map((object) => <Objects key={object.name} {...object} type="ressources" />);
+  console.log(jsxRessource);
   jsxVivre = jsxVivre.map((object) => <Objects key={object.name} {...object} type="consommable" />);
-  const jsxEquipement = inventory.equipment.map((object) => {
-    object.quantity = 0;
-    object.reserve.forEach(equip => {object.quantity += equip.quantity});
-    return(<Objects key={object.name} {...object}/>);
+  const jsxEquipement = jsxEquips.map((object) => {
+    if (object.quantity > 0) {
+      return(<Objects key={object.item_name} {...object}/>);
+    }
   });
 
   //création object JSX pour afficher les catégories d'équipement dans l'inventaire
-  let jsxHelmet = [],
-    jsxArmor = [],
-    jsxWeapon = [],
-    jsxShoes = [];
-  inventory.equipment.forEach((equip) => {
-    if (equip.name == "casque") {
-      jsxHelmet = equip.reserve.filter(item => item.quantity > 0);
-      jsxHelmet = jsxHelmet.map((item) => (
-        <Objects key={item.id} {...item} type={equip.name}/>
-      ));
-    } else if (equip.name == "armure") {
-      jsxArmor = equip.reserve.filter(item => item.quantity > 0);
-      jsxArmor = jsxArmor.map((item) => (
-        <Objects key={item.id} {...item} type={equip.name}/>
-      ));
-    } else if (equip.name == "arme") {
-      jsxWeapon = equip.reserve.filter(item => item.quantity > 0);
-      jsxWeapon = jsxWeapon.map((item) => (
-        <Objects key={item.id} {...item} type={equip.name} />
-      ));
-    } else if (equip.name == "bottes") {
-      jsxShoes = equip.reserve.filter(item => item.quantity > 0);
-      jsxShoes = jsxShoes.map((item) => (
-        <Objects key={item.id} {...item} type={equip.name} />
-      ));
-    }
-  });
+  let jsxHelmet = inventory.filter((item) => item.type_id === 4).map((i) => (
+    <Objects key={i.id} {...i} type={i.name}/>
+  )),
+    jsxArmor = inventory.filter((item) => item.type_id === 5).map((i) => (
+      <Objects key={i.id} {...i} type={i.name}/>
+    )),
+    jsxWeapon = inventory.filter((item) => item.type_id === 3).map((i) => (
+      <Objects key={i.id} {...i} type={i.name}/>
+    )),
+    jsxShoes = inventory.filter((item) => item.type_id === 6).map((i) => (
+      <Objects key={i.id} {...i} type={i.name}/>
+    ));
+
   //trier arme par type
-  jsxWeapon.sort((a, b) => a.type - b.type);
+  // jsxWeapon.sort((a, b) => a.type - b.type);
   //menu affichage des catégories dans le panneau d'inventaire
   const posterCatMenu = (e) => {
+    console.log(posterCat);
     dispatch(posterCategory(e.currentTarget.getAttribute("name")));
     if (e.currentTarget.getAttribute("name") != 'equipement') dispatch(posterEquipment(''));
     activeThumb(e.currentTarget);
   };
   //création object JSX pour afficher des équipements portés
-  const JSXaccessories = Object.keys(equipments).map(function(key) {
-    let equipType = inventory.equipment.find(item => item.name == key);
-    let equipObj = equipType.reserve.find(item => item.item_id == equipments[key]);
-    if (equipObj !== undefined) {
-      return (
-        <Equipment key={equipObj.name} {...equipObj} />
-      )
-    }
+  const JSXaccessories = equipments.map((item) => {
+    return (
+      <Equipment key={item.name} {...item} />
+    )
   });
 
   return (

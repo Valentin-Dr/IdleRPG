@@ -1,7 +1,7 @@
 import { SEND_RESOURCE_TO_INVENTORY } from "../actions/mining";
 import { POSTER_CATEGORY, POSTER_EQUIP, SET_DETAILS,
   CLOSE_DETAILS, UPDATE_EQUIPMENT,UPDATE_VIVRE, SPARE_POINTS, UPDATE_NBR_FIELD,
-  SET_CHARACTER_DATA, BUY_ITEM } from '../actions/character';
+  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV } from '../actions/character';
 import { SPEND_RESOURCES_FOR_CRAFT } from "../actions/craft";
 import { SEND_BUY_ITEM_TO_DB } from "../actions/shop";
 import {
@@ -19,62 +19,8 @@ const initialState = {
   exp_up: 0,
   exp_floor: 0,
   level: 1,
-  inventory: {
-    consommable: [
-      {
-        item_id: 1,
-        name: "",
-        description: "",
-        img_path: "",
-        quantity: 0,
-        statistique: 0,
-      },
-    ],
-    equipment: [
-      {
-        name: "arme",
-        description: "",
-        img_path: "épéedefer",
-        quantity: 0,
-        type_statistique: "force",
-        reserve: [],
-      },
-      {
-        name: "casque",
-        description: "",
-        img_path: "casquedefer",
-        quantity: 0,
-        type_statistique: "endurance",
-        reserve: [],
-      },
-      {
-        name: "armure",
-        description: "",
-        img_path: "armuredefer",
-        quantity: 0,
-        type_statistique: "endurance",
-        reserve: [],
-      },
-      {
-        name: "bottes",
-        description: "",
-        img_path: "bottesdefer",
-        quantity: 0,
-        type_statistique: "dextérité",
-        reserve: [],
-      },
-    ],
-    ressource: [
-      {
-        item_id: 1,
-        name: "",
-        description: "",
-        img_path: "",
-        quantity: 0,
-      },
-    ],
-  },
-  equipments: {},
+  inventory: [],
+  equipments: [],
   detailsObj: {
     item_id: 1,
     name: "",
@@ -102,35 +48,45 @@ const initialState = {
 const character = (state = initialState, action = {}) => {
   switch (action.type) {
     case SEND_RESOURCE_TO_INVENTORY:
+      // console.log(action.payload.item);
+      // console.log(state.inventory);
       //MAJ inventaire après ajout ressource/consommable
-      let addInventory = state.inventory[action.obj_type];
-      let addObject = addInventory.find((obj) => obj.item_id == action.item_id);
-      if (addObject == undefined) {
-        //si objet existe pas dans l'inventaire, y ajouter nouvel objet
-        addObject = {
-          item_id: action.item_id,
-          name: action.name,
-          description: action.desc,
-          img_path: action.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-          quantity: action.quantity,
+      // let addInventory = state.inventory[action.obj_type];
+      // let addObject = addInventory.find((obj) => obj.item_id == action.item_id);
+      // if (addObject == undefined) {
+      //   //si objet existe pas dans l'inventaire, y ajouter nouvel objet
+      //   addObject = {
+      //     item_id: action.item_id,
+      //     name: action.name,
+      //     description: action.desc,
+      //     img_path: action.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+      //     quantity: action.quantity,
+      //   };
+      //   if (action.obj_type == "consommable")
+      //     addObject.statistique = action.stat;
+      //   addInventory.push(addObject);
+      // } else {
+      //   //si objet existe dans l'inventaire, augmenter sa quantité
+      //   for (let i = 0; i < addInventory.length; i++) {
+      //     if (addInventory[i].item_id == addObject.item_id) {
+      //       addInventory[i].quantity += action.quantity;
+      //     }
+      //   }
+      // }
+      const checkPresenceOfResource = state.inventory.find((item) => item.item_id === action.payload.item.id);
+      if (checkPresenceOfResource) {
+        return {
+          ...state,
+          inventory: state.inventory.map((item) => item.item_id === action.payload.item.id ? {...item, quantity: item.quantity + action.payload.quantity} : item)
         };
-        if (action.obj_type == "consommable")
-          addObject.statistique = action.stat;
-        addInventory.push(addObject);
       } else {
-        //si objet existe dans l'inventaire, augmenter sa quantité
-        for (let i = 0; i < addInventory.length; i++) {
-          if (addInventory[i].item_id == addObject.item_id) {
-            addInventory[i].quantity += action.quantity;
-          }
-        }
-      }
-      return {
-        ...state,
-        inventory: {
-          ...state.inventory,
-          [action.obj_type]: addInventory,
-        },
+        return {
+          ...state,
+          inventory: [
+            ...state.inventory,
+            {...action.payload.item, item_id: action.payload.item.id},
+          ],
+        };
       };
     case SPEND_RESOURCES_FOR_CRAFT:
       //MAJ ressources après utilisation pour forger équipement
@@ -188,124 +144,124 @@ const character = (state = initialState, action = {}) => {
         },
       };
     case SET_CHARACTER_DATA:
-      // console.log('action',action);
-      //Récupérer inventaire de la BDD
-      const feelObj = (id, name, img, desc, quantity) => {
-        return {
-          item_id: id,
-          name: name,
-          img_path: img,
-          description: desc,
-          quantity: quantity,
-        };
-      };
-      let newConsommable = [],
-        newRessource = [],
-        newArme = [],
-        newCasque = [],
-        newArmure = [],
-        newBottes = [];
-      if (action.data.inventory[0] !== null) {
-        action.data.inventory.forEach((object) => {
-          if (object.type_name == "ressource") {
-            let currentRessource = feelObj(
-              object.item_id,
-              object.name,
-              object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              object.item_desc,
-              object.quantity
-            );
-            newRessource.push(currentRessource);
-          } else if (object.type_name == "consommable") {
-            let stat = object.attributes.find((item) => item.name == "soins");
-            let currentConso = feelObj(
-              object.item_id,
-              object.name,
-              object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              object.item_desc,
-              object.quantity
-            );
-            currentConso.statistique = stat.value;
-            newConsommable.push(currentConso);
-          } else if (object.type_name == "arme") {
-            let stat = object.attributes.find((item) => item.name == "force");
-            let currentArme = feelObj(
-              object.item_id,
-              object.name,
-              object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              object.item_desc,
-              object.quantity
-            );
-            currentArme.statistique = stat.value;
-            newArme.push(currentArme);
-          } else if (object.type_name == "casque") {
-            let stat = object.attributes.find(
-              (item) => item.name == "endurance"
-            );
-            let currentCasque = feelObj(
-              object.item_id,
-              object.name,
-              object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              object.item_desc,
-              object.quantity
-            );
-            currentCasque.statistique = stat.value;
-            newCasque.push(currentCasque);
-          } else if (object.type_name == "bottes") {
-            let stat = object.attributes.find(
-              (item) => item.name == "dextérité"
-            );
-            let currentBottes = feelObj(
-              object.item_id,
-              object.name,
-              object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              object.item_desc,
-              object.quantity
-            );
-            currentBottes.statistique = stat.value;
-            newBottes.push(currentBottes);
-          } else if (object.type_name == "armure") {
-            let stat = object.attributes.find(
-              (item) => item.name == "endurance"
-            );
-            let currentArmure = feelObj(
-              object.item_id,
-              object.name,
-              object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              object.item_desc,
-              object.quantity
-            );
-            currentArmure.statistique = stat.value;
-            newArmure.push(currentArmure);
-          }
-        });
-      }
-      //Répartir les équipements dans les catégories d'équipement de l'inventaire
-      let newEquip = state.inventory.equipment.map(equip => {
-        if (equip.name == 'arme') {
-            equip.reserve = [...equip.reserve, ...newArme];
-        } else if (equip.name == 'casque') {
-            equip.reserve = [...equip.reserve, ...newCasque];
-        } else if (equip.name == 'armure')  {
-            equip.reserve = [...equip.reserve, ...newArmure];
-        } else if (equip.name == 'bottes')  {
-            equip.reserve = [...equip.reserve, ...newBottes];
-        }
-        equip.quantity = equip.reserve.length;
-        return equip;
-      });
-      let inventoryData = {
-        ressource: newRessource,
-        consommable: newConsommable,
-        equipment: newEquip,
-      };
+    //   // console.log('action',action);
+    //   //Récupérer inventaire de la BDD
+    //   const feelObj = (id, name, img, desc, quantity) => {
+    //     return {
+    //       item_id: id,
+    //       name: name,
+    //       img_path: img,
+    //       description: desc,
+    //       quantity: quantity,
+    //     };
+    //   };
+    //   let newConsommable = [],
+    //     newRessource = [],
+    //     newArme = [],
+    //     newCasque = [],
+    //     newArmure = [],
+    //     newBottes = [];
+    //   if (action.data.inventory[0] !== null) {
+    //     action.data.inventory.forEach((object) => {
+    //       if (object.type_name == "ressource") {
+    //         let currentRessource = feelObj(
+    //           object.item_id,
+    //           object.name,
+    //           object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+    //           object.item_desc,
+    //           object.quantity
+    //         );
+    //         newRessource.push(currentRessource);
+    //       } else if (object.type_name == "consommable") {
+    //         let stat = object.attributes.find((item) => item.name == "soins");
+    //         let currentConso = feelObj(
+    //           object.item_id,
+    //           object.name,
+    //           object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+    //           object.item_desc,
+    //           object.quantity
+    //         );
+    //         currentConso.statistique = stat.value;
+    //         newConsommable.push(currentConso);
+    //       } else if (object.type_name == "arme") {
+    //         let stat = object.attributes.find((item) => item.name == "force");
+    //         let currentArme = feelObj(
+    //           object.item_id,
+    //           object.name,
+    //           object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+    //           object.item_desc,
+    //           object.quantity
+    //         );
+    //         currentArme.statistique = stat.value;
+    //         newArme.push(currentArme);
+    //       } else if (object.type_name == "casque") {
+    //         let stat = object.attributes.find(
+    //           (item) => item.name == "endurance"
+    //         );
+    //         let currentCasque = feelObj(
+    //           object.item_id,
+    //           object.name,
+    //           object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+    //           object.item_desc,
+    //           object.quantity
+    //         );
+    //         currentCasque.statistique = stat.value;
+    //         newCasque.push(currentCasque);
+    //       } else if (object.type_name == "bottes") {
+    //         let stat = object.attributes.find(
+    //           (item) => item.name == "dextérité"
+    //         );
+    //         let currentBottes = feelObj(
+    //           object.item_id,
+    //           object.name,
+    //           object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+    //           object.item_desc,
+    //           object.quantity
+    //         );
+    //         currentBottes.statistique = stat.value;
+    //         newBottes.push(currentBottes);
+    //       } else if (object.type_name == "armure") {
+    //         let stat = object.attributes.find(
+    //           (item) => item.name == "endurance"
+    //         );
+    //         let currentArmure = feelObj(
+    //           object.item_id,
+    //           object.name,
+    //           object.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+    //           object.item_desc,
+    //           object.quantity
+    //         );
+    //         currentArmure.statistique = stat.value;
+    //         newArmure.push(currentArmure);
+    //       }
+    //     });
+    //   }
+    //   //Répartir les équipements dans les catégories d'équipement de l'inventaire
+    //   let newEquip = state.inventory.equipment.map(equip => {
+    //     if (equip.name == 'arme') {
+    //         equip.reserve = [...equip.reserve, ...newArme];
+    //     } else if (equip.name == 'casque') {
+    //         equip.reserve = [...equip.reserve, ...newCasque];
+    //     } else if (equip.name == 'armure')  {
+    //         equip.reserve = [...equip.reserve, ...newArmure];
+    //     } else if (equip.name == 'bottes')  {
+    //         equip.reserve = [...equip.reserve, ...newBottes];
+    //     }
+    //     equip.quantity = equip.reserve.length;
+    //     return equip;
+    //   });
+    //   let inventoryData = {
+    //     ressource: newRessource,
+    //     consommable: newConsommable,
+    //     equipment: newEquip,
+    //   };
 
-      //MAJ les équipements portés dans les équipements du state
-      let equipmentData = {};
-      action.data.equipments.forEach((object) => {
-        equipmentData[object.slot_name] = object.item_id;
-      });
-      //MAJ les statisqtiques du personnage
+    //   //MAJ les équipements portés dans les équipements du state
+    //   let equipmentData = {};
+    //   action.data.equipments.forEach((object) => {
+    //     equipmentData[object.slot_name] = object.item_id;
+    //   });
+    //   //MAJ les statisqtiques du personnage
       let  dataForce = (action.data.attributes.find(obj => obj.name == "force")).value;
       if (action.data.equipments[3].attributes[0] != null) dataForce += action.data.equipments[3].attributes[0].value;
       let dataEndurance = (action.data.attributes.find(obj => obj.name == "endurance")).value;
@@ -317,8 +273,12 @@ const character = (state = initialState, action = {}) => {
       const dataVie = action.data.attributes.find(obj => obj.name == "points de vie");
       return {
         ...state,
-        inventory: inventoryData,
-        equipments: equipmentData,
+        inventory: [
+          ...action.data.inventory,
+        ],
+        equipments: [
+          ...action.data.equipments,
+        ],
         force: dataForce,
         endurance: dataEndurance,
         dextérité: dataDextérité,
@@ -346,7 +306,7 @@ const character = (state = initialState, action = {}) => {
       };
     case SET_DETAILS:
       //Afficher les informations de l'objet sélectionné dans le panneau de détail
-      const { item_id, name, img_path, description, type, statistique } = action.detailsObj;
+      const { item_id, name, img_path, item_desc, type_id, attributes } = action.detailsObj;
       let quantity;
       action.detailsObj.reserve == undefined
         ? (quantity = action.detailsObj.quantity)
@@ -356,11 +316,11 @@ const character = (state = initialState, action = {}) => {
         detailsObj: {
           item_id: item_id,
           name: name,
-          img_path: img_path,
-          description: description,
-          statistique: statistique,
+          img_path: name.replace(/['"]+/g, "").replace(/\s/g, ""),
+          description: item_desc,
+          statistique: attributes[1].name === "soins" ? attributes[1].value : attributes[0].value,
           quantity: quantity,
-          type: type,
+          type: type_id,
         },
         selected: name,
       };
@@ -371,68 +331,65 @@ const character = (state = initialState, action = {}) => {
         selected: "",
       };
     case UPDATE_EQUIPMENT:
-      //Changer d'équipement
-      //MAJ les équipements disponibles dans l'inventaire après avoir changer d'équipement
-      let equipInvent = state.inventory.equipment;
-      equipInvent.forEach(equip => {
-        if (equip.name == action.objType) {
-          for (let i = 0; i < equip.reserve.length; i++) {
-            if (equip.reserve[i].item_id == action.id) {
-              equip.reserve[i].quantity -= 1;
-            } else if (
-              equip.reserve[i].item_id == state.equipments[action.objType]
-            ) {
-              equip.reserve[i].quantity += 1;
-            }
-          }
-        }
-      });
-      //MAJ les stats du personnage en fonction de l'équipement porté
-      let oldStuff = state.equipments[action.objType];
-      let stuffType = state.inventory.equipment.find(
-        (item) => item.name == action.objType
-      );
+      // // Changer d'équipement
+      // // MAJ les équipements disponibles dans l'inventaire après avoir changer d'équipement
+      // let equipInvent = state.inventory.equipment;
+      // equipInvent.forEach(equip => {
+      //   if (equip.name == action.objType) {
+      //     for (let i = 0; i < equip.reserve.length; i++) {
+      //       if (equip.reserve[i].item_id == action.id) {
+      //         equip.reserve[i].quantity -= 1;
+      //       } else if (
+      //         equip.reserve[i].item_id == state.equipments[action.objType]
+      //       ) {
+      //         equip.reserve[i].quantity += 1;
+      //       }
+      //     }
+      //   }
+      // });
+      // //MAJ les stats du personnage en fonction de l'équipement porté
+      // let oldStuff = state.equipments[action.objType];
+      // let stuffType = state.inventory.equipment.find(
+      //   (item) => item.name == action.objType
+      // );
 
-      let oldVal = stuffType.reserve.find((item) => item.item_id == oldStuff);
-      let newVal = stuffType.reserve.find((item) => item.item_id == action.id);
+      // let oldVal = stuffType.reserve.find((item) => item.item_id == oldStuff);
+      // let newVal = stuffType.reserve.find((item) => item.item_id == action.id);
 
-      let newEquipment = {
-        ...state.equipments,
-        [action.objType]: action.id,
-      };
+      // let newEquipment = {
+      //   ...state.equipments,
+      //   [action.objType]: action.id,
+      // };
+      const newEquipment = state.inventory.find((item) => item.item_id === action.item.item_id);
+      const findEquip = state.equipments.find((equip) => equip.slot_name === newEquipment.type_name);
+      console.log(newEquipment);
       return {
         ...state,
-        inventory: {
-          ...state.inventory,
-          equipment: equipInvent,
-        },
-        equipments: newEquipment,
-        [stuffType.type_statistique]:
-          oldVal !== undefined
-            ? state[stuffType.type_statistique] +
-              (newVal.statistique - oldVal.statistique)
-            : state[stuffType.type_statistique] + newVal.statistique,
+        inventory: state.inventory.map((item) => item.item_id === action.item.item_id ? {...item, quantity: item.quantity - 1 } : item),
+        equipments: state.equipments.map((equip) => equip.slot_name === newEquipment.type_name
+        ? {...equip,
+          attributes: newEquipment.attributes,
+          item_id: newEquipment.item_id,
+          item_desc: newEquipment.description,
+          item_name: newEquipment.name}
+          : equip),
+          // La stat modifiée
+          [newEquipment.attributes[0].name]: findEquip
+          ? state[newEquipment.attributes[0].name] + newEquipment.attributes[0].value - findEquip.attributes[0].value
+          : state[newEquipment.attributes[0].name],
         selected: "",
       };
-    case UPDATE_VIVRE:
-      let stockVivre = state.inventory.consommable;
-      //trouver le vivre correspondant au nom dans les vivres de l'inventaire
-      stockVivre = stockVivre.find((item) => item.name == action.name);
-      //enlever 1 à la quantité de l'inventaire trouvé
-      stockVivre.quantity -= 1;
-      //mettre à jour vivres de l'inventaire avec le vivre mis à jour
-      let newVivres = state.inventory.consommable.map((vivre) => {
-        if (vivre.name == action.name) vivre.quantity = stockVivre.quantity;
-        return vivre;
-      });
-      // mettre à jour l'inventaire avec les vivres mis à jour
-      let newInventory = {
-        ...state.inventory,
-        newVivres,
-      };
+    case EQUIP_ITEM_BACK_TO_INV:
+      const findPayloadInInventory = state.inventory.find((item) => item.item_id === action.payload.item.item_id);
+      const findEquippedCurrent = state.equipments.find((item) => item.slot_name === findPayloadInInventory.type_name);
       return {
         ...state,
-        inventory: newInventory,
+        inventory: state.inventory.map((item) => item.item_id === findEquippedCurrent.item_id ? {...item, quantity: item.quantity + 1} : item),
+      };
+    case UPDATE_VIVRE:
+      return {
+        ...state,
+        inventory: state.inventory.map((item) => item.item_id === action.id ? {...item, quantity: item.quantity - 1} : item),
         vie:
           state.vie + action.statistique > 100
             ? 100

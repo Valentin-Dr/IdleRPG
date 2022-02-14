@@ -49,7 +49,7 @@ const characterMiddleware = (store) => (next) => (action) => {
         },
         data: {
           characterId: Number(localStorage.characterId),
-          itemId: action.id,
+          itemId: action.item.item_id,
         },
       };
       API(config)

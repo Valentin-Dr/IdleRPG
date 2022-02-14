@@ -1,13 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
 import './style.scss';
-
 // == Composant
 const Equipment = (object) => {
   
   return (
-    <div className="equip-block" key={object.name}>
-      <div className="name-equip">{object.name}</div>
-      <div className={`img-equip ${object.img_path}`}> </div>
-      <div className="stat-equip">{object.statistique}P</div>
+    <div className="equip-block" key={uuidv4()}>
+      <div className="name-equip">{object.item_name}</div>
+      <div className={`img-equip ${object.item_name.replace(/['"]+/g, "").replace(/\s/g, "")}`}> </div>
+      <div className="stat-equip">{object.attributes[0].value} {object.attributes[0].name}</div>
     </div>
   );
 };

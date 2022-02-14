@@ -8,7 +8,7 @@ import './style.scss';
 const Objects = (object) => {
 
   const dispatch = useDispatch();
-  const  selected  = useSelector(state => state.character.selected);
+  const  {selected, equipments}  = useSelector(state => state.character);
 
   //poster details of equipment and highlight equipment thumb
   const posterEquipMenu = (e) => {
@@ -21,18 +21,19 @@ const Objects = (object) => {
 
   //poster details of object
   const updateDetails = (e) => {
+    console.log(equipments);
     dispatch(setDetails(object));
   }
-
+  // console.log(object);
   return (
     <div className={selected == object.name ? "object on" : "object"}>
       <div className="inner">
         { equipObject ?
-        <div className={`view-wrapper ${object.img_path}`} onClick={posterEquipMenu}></div> :
-        <div className={`view-wrapper ${object.img_path}`} onClick={updateDetails}></div>}
+        <div className={`view-wrapper ${object.name.replace(/['"]+/g, "").replace(/\s/g, "")}`} onClick={posterEquipMenu}></div> :
+        <div className={`view-wrapper ${object.name.replace(/['"]+/g, "").replace(/\s/g, "")}`} onClick={updateDetails}></div>}
         { object.quantity > 0 && <div className="nbr">{object.quantity}</div>}
-        { object.statistique &&
-        <div className="stat">{object.statistique}P</div>}
+        { object.type_id > 2 && object.type_id < 7 &&
+        <div className="stat">{object.attributes[0].value}P</div>}
       </div>
     </div>
   );

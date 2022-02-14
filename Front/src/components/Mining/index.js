@@ -67,7 +67,7 @@ export default function Mining({job}) {
         const quantity = Math.floor((level / 6) + 1);
         const exp = Math.floor(1 + (wr.attribute[0].value / 8));
         dispatch(sendOreToDb(id, quantity, exp));
-        dispatch(sendResourceToInventory(name, id, 'ressource', quantity, desc));
+        dispatch(sendResourceToInventory(wr, quantity));
         dispatch(addLogMessage(exp, quantity));
       }, actionTime);
 

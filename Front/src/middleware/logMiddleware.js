@@ -91,7 +91,7 @@ const logMiddleware = (store) => (next) => (action) => {
             store.dispatch(userAction);
           };
           // console.log(response);
-
+          console.log(response.data.character);
           store.dispatch(setCharacterData(response.data.character));
           store.dispatch(getMonster(response.data.entities));
           store.dispatch(getNewMonster());

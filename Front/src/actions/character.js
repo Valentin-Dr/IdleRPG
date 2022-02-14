@@ -3,6 +3,7 @@ export const POSTER_EQUIP = 'POSTER_EQUIP';
 export const SET_DETAILS = 'SET_DETAILS';
 export const CLOSE_DETAILS = 'CLOSE_DETAILS';
 export const UPDATE_EQUIPMENT = 'UPDATE_EQUIPMENT';
+export const EQUIP_ITEM_BACK_TO_INV = 'EQUIP_ITEM_BACK_TO_INV';
 export const UPDATE_VIVRE = 'UPDATE_VIVRE';
 export const SPARE_POINTS = 'SPARE_POINTS';
 export const UPDATE_NBR_FIELD = 'UPDATE_NBR_FIELD';
@@ -29,10 +30,9 @@ export const closeDetails = () => ({
   type: CLOSE_DETAILS,
 });
 
-export const updateEquip = (id, objType) => ({
+export const updateEquip = (item) => ({
   type: UPDATE_EQUIPMENT,
-  id:id,
-  objType: objType,
+  item,
 });
 
 export const updateVivre = (name, statistique, id) => ({
@@ -66,5 +66,12 @@ export const buyItem = (gold) => ({
   type: BUY_ITEM,
   payload: {
     gold,
+  },
+});
+
+export const equipBackToInv = (item) => ({
+  type: EQUIP_ITEM_BACK_TO_INV,
+  payload: {
+    item,
   },
 });

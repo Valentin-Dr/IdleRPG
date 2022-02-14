@@ -76,6 +76,7 @@ export default function Fishing({job}) {
 
   // Choix de la ressource
   const switchResource = (e) => {
+    console.log(inventory);
     const workingResource = resources.find(resource => resource.name.replace(/['"]+/g, "").replace(/\s/g, "") === e.target.className.split(' ')[1]);
     if (level >= workingResource.attribute[0].value) {
       dispatch(setCurrentResource(e.target.className.split(' ')[1], workingResource.attribute[0].value )); // EXP GAGNÉE
