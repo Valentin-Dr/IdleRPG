@@ -9,7 +9,15 @@ export const SPARE_POINTS = 'SPARE_POINTS';
 export const UPDATE_NBR_FIELD = 'UPDATE_NBR_FIELD';
 export const SET_CHARACTER_DATA = 'SET_CHARACTER_DATA';
 export const BUY_ITEM = 'BUY_ITEM';
+export const CHANGE_SHOWN_ITEMS_INV = 'CHANGE_SHOWN_ITEMS_INV';
 
+
+export const changeShownItems = (data) => ({
+  type: CHANGE_SHOWN_ITEMS_INV,
+  payload: {
+    data,
+  },
+});
 
 export const posterCategory = (category) => ({
   type: POSTER_CATEGORY,

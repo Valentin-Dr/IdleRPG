@@ -1,7 +1,7 @@
 import { SEND_RESOURCE_TO_INVENTORY } from "../actions/mining";
 import { POSTER_CATEGORY, POSTER_EQUIP, SET_DETAILS,
   CLOSE_DETAILS, UPDATE_EQUIPMENT,UPDATE_VIVRE, SPARE_POINTS, UPDATE_NBR_FIELD,
-  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV } from '../actions/character';
+  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV } from '../actions/character';
 import { SPEND_RESOURCES_FOR_CRAFT } from "../actions/craft";
 import { SEND_BUY_ITEM_TO_DB } from "../actions/shop";
 import {
@@ -21,6 +21,7 @@ const initialState = {
   level: 1,
   inventory: [],
   equipments: [],
+  currentlyShown: [],
   detailsObj: {
     item_id: 1,
     name: "",
@@ -47,6 +48,11 @@ const initialState = {
 
 const character = (state = initialState, action = {}) => {
   switch (action.type) {
+    case CHANGE_SHOWN_ITEMS_INV:
+      return {
+        ...state,
+        currentlyShown: [...action.payload.data],
+      };
     case SEND_RESOURCE_TO_INVENTORY:
       // console.log(action.payload.item);
       // console.log(state.inventory);
@@ -74,10 +80,17 @@ const character = (state = initialState, action = {}) => {
       //   }
       // }
       const checkPresenceOfResource = state.inventory.find((item) => item.item_id === action.payload.item.id);
+      const checkResourceInCurShown = state.currentlyShown.find((item) => item.item_id === action.payload.item.id);
       if (checkPresenceOfResource) {
         return {
           ...state,
-          inventory: state.inventory.map((item) => item.item_id === action.payload.item.id ? {...item, quantity: item.quantity + action.payload.quantity} : item)
+          inventory: state.inventory.map((item) => item.item_id === action.payload.item.id
+          ? {...item, quantity: item.quantity + action.payload.quantity}
+          : item),
+          currentlyShown: checkResourceInCurShown &&
+          state.currentlyShown.map((item) => item.item_id === action.payload.item.id
+          ? {...item, quantity: item.quantity + action.payload.quantity}
+          : item),
         };
       } else {
         return {
@@ -377,19 +390,24 @@ const character = (state = initialState, action = {}) => {
           [newEquipment.attributes[0].name]: findEquip
           ? state[newEquipment.attributes[0].name] + newEquipment.attributes[0].value - findEquip.attributes[0].value
           : state[newEquipment.attributes[0].name],
+        currentlyShown: state.currentlyShown.map((item) => item.item_id === action.item.item_id ? {...item, quantity: item.quantity - 1 } : item),
         selected: "",
       };
     case EQUIP_ITEM_BACK_TO_INV:
       const findPayloadInInventory = state.inventory.find((item) => item.item_id === action.payload.item.item_id);
       const findEquippedCurrent = state.equipments.find((item) => item.slot_name === findPayloadInInventory.type_name);
+      console.log(state.currentlyShown);
+      console.log(findEquippedCurrent);
       return {
         ...state,
         inventory: state.inventory.map((item) => item.item_id === findEquippedCurrent.item_id ? {...item, quantity: item.quantity + 1} : item),
+        currentlyShown: state.currentlyShown.map((item) => item.item_id === findEquippedCurrent.item_id ? {...item, quantity: item.quantity + 1} : item),
       };
     case UPDATE_VIVRE:
       return {
         ...state,
         inventory: state.inventory.map((item) => item.item_id === action.id ? {...item, quantity: item.quantity - 1} : item),
+        currentlyShown: state.currentlyShown.map((item) => item.item_id === action.id ? {...item, quantity: item.quantity - 1} : item),
         vie:
           state.vie + action.statistique > 100
             ? 100
