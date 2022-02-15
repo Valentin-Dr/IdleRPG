@@ -1,0 +1,49 @@
+@use 'src/styles/vars';
+
+.success-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  &-title {
+    display: flex;
+
+  }
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 70px;
+    padding: 2rem;
+    border: 1px rgba(0, 4, 255, 0.2) solid;
+    background: vars.$baseColor;
+    box-shadow: inset 1px 1px 5px white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.all-success {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.success {
+  width: 250px;
+  min-height: 33.33%;
+  max-height: 33.33%;
+  margin: 12px;
+  padding: 1rem;
+  border: 1px rgba(0, 4, 255, 0.2) solid;
+  background: vars.$baseColor;
+  box-shadow: inset 1px 1px 5px white;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+    &-desc {
+      margin-top: 1rem;
+    }
+}
+.no-success {
+  background-color: rgb(8, 23, 241);
+}
