@@ -10,6 +10,8 @@ export const UPDATE_NBR_FIELD = 'UPDATE_NBR_FIELD';
 export const SET_CHARACTER_DATA = 'SET_CHARACTER_DATA';
 export const BUY_ITEM = 'BUY_ITEM';
 export const CHANGE_SHOWN_ITEMS_INV = 'CHANGE_SHOWN_ITEMS_INV';
+export const CHANGE_SHOWN_ITEMS_ID = 'CHANGE_SHOWN_ITEMS_ID';
+export const REFRESH_SHOWN_ITEMS = 'REFRESH_SHOWN_ITEMS';
 
 
 export const changeShownItems = (data) => ({
@@ -17,6 +19,17 @@ export const changeShownItems = (data) => ({
   payload: {
     data,
   },
+});
+
+export const changeShownId = (id) => ({
+  type: CHANGE_SHOWN_ITEMS_ID,
+  payload: {
+    id,
+  },
+});
+
+export const refreshShownItemsAuto = () => ({
+  type: REFRESH_SHOWN_ITEMS,
 });
 
 export const posterCategory = (category) => ({

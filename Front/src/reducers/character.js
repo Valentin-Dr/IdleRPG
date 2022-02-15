@@ -1,8 +1,8 @@
 import { SEND_RESOURCE_TO_INVENTORY } from "../actions/mining";
 import { POSTER_CATEGORY, POSTER_EQUIP, SET_DETAILS,
   CLOSE_DETAILS, UPDATE_EQUIPMENT,UPDATE_VIVRE, SPARE_POINTS, UPDATE_NBR_FIELD,
-  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV } from '../actions/character';
-import { SPEND_RESOURCES_FOR_CRAFT } from "../actions/craft";
+  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV, CHANGE_SHOWN_ITEMS_ID, REFRESH_SHOWN_ITEMS } from '../actions/character';
+import { ADD_CRAFTED_ITEM_TO_INVENTORY, SPEND_RESOURCES_FOR_CRAFT } from "../actions/craft";
 import { SEND_BUY_ITEM_TO_DB } from "../actions/shop";
 import {
   UPDATE_AFTER_FIGHT,
@@ -22,6 +22,7 @@ const initialState = {
   inventory: [],
   equipments: [],
   currentlyShown: [],
+  currentlyShownId: "",
   detailsObj: {
     item_id: 1,
     name: "",
@@ -53,6 +54,19 @@ const character = (state = initialState, action = {}) => {
         ...state,
         currentlyShown: [...action.payload.data],
       };
+    case CHANGE_SHOWN_ITEMS_ID:
+      return {
+        ...state,
+        currentlyShownId: action.payload.id,
+      };
+    case REFRESH_SHOWN_ITEMS:
+      return {
+        ...state,
+        currentlyShown: state.currentlyShownId
+        && state.currentlyShownId !== "consommable" && state.currentlyShownId !== "ressource"
+        ? [...state.inventory.filter((i) => i.type_name !== "consommable" && i.type_name !== "ressource")]
+        : [...state.inventory.filter((item) => item.type_name === state.currentlyShownId)],
+      };
     case SEND_RESOURCE_TO_INVENTORY:
       // console.log(action.payload.item);
       // console.log(state.inventory);
@@ -80,17 +94,17 @@ const character = (state = initialState, action = {}) => {
       //   }
       // }
       const checkPresenceOfResource = state.inventory.find((item) => item.item_id === action.payload.item.id);
-      const checkResourceInCurShown = state.currentlyShown.find((item) => item.item_id === action.payload.item.id);
+      console.log(state.currentlyShown);
+      // const checkResourceInCurShown = state.currentlyShown.find((item) => item.item_id === action.payload.item.id);
       if (checkPresenceOfResource) {
         return {
           ...state,
           inventory: state.inventory.map((item) => item.item_id === action.payload.item.id
           ? {...item, quantity: item.quantity + action.payload.quantity}
           : item),
-          currentlyShown: checkResourceInCurShown &&
-          state.currentlyShown.map((item) => item.item_id === action.payload.item.id
-          ? {...item, quantity: item.quantity + action.payload.quantity}
-          : item),
+          // currentlyShown: state.currentlyShown.map((item) => item.item_id === action.payload.item.id
+          // ? {...item, quantity: item.quantity + action.payload.quantity}
+          // : item),
         };
       } else {
         return {
@@ -99,62 +113,115 @@ const character = (state = initialState, action = {}) => {
             ...state.inventory,
             {...action.payload.item, item_id: action.payload.item.id},
           ],
+          // currentlyShown: state.currentlyShownId === "consommable"
+          // ?
+          // [
+          //   ...state.currentlyShown,
+          //   {...action.payload.item, item_id: action.payload.item.id},
+          // ]
+          // : [...state.currentlyShown],
         };
       };
     case SPEND_RESOURCES_FOR_CRAFT:
-      //MAJ ressources après utilisation pour forger équipement
-      let spendRessources = state.inventory.ressource;
-      action.recipe.ingredients.forEach((substance) => {
-        for (let i = 0; i < spendRessources.length; i++) {
-          if (substance.component_id == spendRessources[i].item_id) {
-            spendRessources[i].quantity -= substance.quantity;
-          }
-        }
-      });
-      //ajouter équipement forgé à l'inventaire
-      let craftedEquipments = state.inventory.equipment;
-      craftedEquipments.forEach((elem) => {
-        if (elem.name == action.recipe.type) {
-          elem.quantity += 1;
-          if (elem.reserve.find(weapon => weapon.item_id == action.recipe.id) == undefined) {
-            //si equipement existe pas dans l'inventaire, y ajouter nouvel objet équipement
-            let stat = 0;
-            if (elem.name == "arme") {
-              stat = action.recipe.attribute.find(att => att.name == 'force');
-            } else if (elem.name == "armure") {
-              stat = action.recipe.attribute.find(att => att.name == 'endurance');
-            } else if (elem.name == "casque") {
-              stat = action.recipe.attribute.find(att => att.name == 'endurance');
-            } else if (elem.name == "bottes") {
-              stat = action.recipe.attribute.find(att => att.name == 'dextérité');
-            }
-            let crafted = {
-              item_id: action.recipe.id, 
-              name: action.recipe.name, 
-              description: action.recipe.desc, 
-              quantity: 1,
-              img_path: action.recipe.name.replace(/['"]+/g, "").replace(/\s/g, ""),
-              statistique: stat.value,
-            }
-            elem.reserve.push(crafted);
-          } else {
-            //si l'équipemen existe dans l'inventaire, augmenter sa quantité
-            for (let i = 0; i < elem.reserve.length; i++) {
-              if (elem.reserve[i].item_id == action.recipe.id) {
-                elem.reserve[i].quantity += 1;
-                break;
-              }
-            }
-          }
-        }
-      });
+      // //MAJ ressources après utilisation pour forger équipement
+      // let spendRessources = state.inventory.ressource;
+      // action.recipe.ingredients.forEach((substance) => {
+      //   for (let i = 0; i < spendRessources.length; i++) {
+      //     if (substance.component_id == spendRessources[i].item_id) {
+      //       spendRessources[i].quantity -= substance.quantity;
+      //     }
+      //   }
+      // });
+      // //ajouter équipement forgé à l'inventaire
+      // let craftedEquipments = state.inventory.equipment;
+      // craftedEquipments.forEach((elem) => {
+      //   if (elem.name == action.recipe.type) {
+      //     elem.quantity += 1;
+      //     if (elem.reserve.find(weapon => weapon.item_id == action.recipe.id) == undefined) {
+      //       //si equipement existe pas dans l'inventaire, y ajouter nouvel objet équipement
+      //       let stat = 0;
+      //       if (elem.name == "arme") {
+      //         stat = action.recipe.attribute.find(att => att.name == 'force');
+      //       } else if (elem.name == "armure") {
+      //         stat = action.recipe.attribute.find(att => att.name == 'endurance');
+      //       } else if (elem.name == "casque") {
+      //         stat = action.recipe.attribute.find(att => att.name == 'endurance');
+      //       } else if (elem.name == "bottes") {
+      //         stat = action.recipe.attribute.find(att => att.name == 'dextérité');
+      //       }
+      //       let crafted = {
+      //         item_id: action.recipe.id, 
+      //         name: action.recipe.name, 
+      //         description: action.recipe.desc, 
+      //         quantity: 1,
+      //         img_path: action.recipe.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+      //         statistique: stat.value,
+      //       }
+      //       elem.reserve.push(crafted);
+      //     } else {
+      //       //si l'équipemen existe dans l'inventaire, augmenter sa quantité
+      //       for (let i = 0; i < elem.reserve.length; i++) {
+      //         if (elem.reserve[i].item_id == action.recipe.id) {
+      //           elem.reserve[i].quantity += 1;
+      //           break;
+      //         }
+      //       }
+      //     }
+      //   }
+      // });
       return {
         ...state,
-        inventory: {
-          ...state.inventory,
-          ressource: spendRessources,
-          equipment: craftedEquipments,
-        },
+        inventory: state.inventory.map((resource) =>
+        resource.name === action.payload.resource.name
+        ? {...resource, quantity: resource.quantity - action.payload.resource.quantity}
+        : resource),
+      };
+    case ADD_CRAFTED_ITEM_TO_INVENTORY:
+      // console.log(state.inventory);
+      // console.log(action.payload.data);
+      const checkPresenceOfEquip = state.inventory.find((equip) => equip.item_id === action.payload.data.id);
+      // payload data
+      console.log(state.currentlyShown);
+      if (checkPresenceOfEquip) {
+        return {
+          ...state,
+          inventory: state.inventory.map((equip) => equip.item_id === action.payload.data.id ? {...equip, quantity: equip.quantity + 1} : equip),
+          // currentlyShown: state.currentlyShownId === "equipement"
+          // ?
+          // state.currentlyShown.map((equip) => equip.item_id === action.payload.data.id ? {...equip, quantity: equip.quantity + 1} : equip)
+          // : [...state.currentlyShown],
+        };
+      } else {
+        return {
+          ...state,
+          inventory: [
+            ...state.inventory,
+            {
+              attributes: action.payload.data.attribute,
+              item_desc: action.payload.data.desc,
+              item_id: action.payload.data.id,
+              name: action.payload.data.name,
+              quantity: 1,
+              type_id: action.payload.data.item_type_id,
+              type_name: action.payload.data.type,
+            },
+          ],
+          // currentlyShown: state.currentlyShownId === "equipement"
+          // ?
+          // [
+          //   ...state.currentlyShown,
+          //   {
+          //     attributes: action.payload.data.attribute,
+          //     item_desc: action.payload.data.desc,
+          //     item_id: action.payload.data.id,
+          //     name: action.payload.data.name,
+          //     quantity: 1,
+          //     type_id: action.payload.data.item_type_id,
+          //     type_name: action.payload.data.type,
+          //   },
+          // ]
+          // : [...state.currentlyShown],
+        };
       };
     case SET_CHARACTER_DATA:
     //   // console.log('action',action);
@@ -454,60 +521,107 @@ const character = (state = initialState, action = {}) => {
         gold: state.gold - action.payload.gold,
       };
     case SEND_BUY_ITEM_TO_DB:
-      //MAJ inventaire après achat objet
+      // //MAJ inventaire après achat objet
       
-      const addBoughtToInvent = (list, id, name, stat, desc) => {
-        if (list.find(elem => elem.item_id == id) == undefined) {
-          //si n'est pas dans l'inventaire, le crééer et l'y ajouter
-          let newObj = {
-            item_id: id,
-            name: name,
-            img_path: name.replace(/['"]+/g, "").replace(/\s/g, ""),
-            description: desc,
-            quantity: 1,
-          };
-          if (stat != undefined) newObj.statistique = stat.value;
-          list.push(newObj);
-        } else {
-          //si est dans l'inventaire, augmenter sa quantité
-          for (let i = 0; i < list.length; i++) {
-            if (list[i].item_id == id) {
-              list[i].quantity += 1;
-              break;
-            }
-          }
-        }
-      };
+      // const addBoughtToInvent = (list, id, name, stat, desc) => {
+      //   if (list.find(elem => elem.item_id == id) == undefined) {
+      //     //si n'est pas dans l'inventaire, le crééer et l'y ajouter
+      //     let newObj = {
+      //       item_id: id,
+      //       name: name,
+      //       img_path: name.replace(/['"]+/g, "").replace(/\s/g, ""),
+      //       description: desc,
+      //       quantity: 1,
+      //     };
+      //     if (stat != undefined) newObj.statistique = stat.value;
+      //     list.push(newObj);
+      //   } else {
+      //     //si est dans l'inventaire, augmenter sa quantité
+      //     for (let i = 0; i < list.length; i++) {
+      //       if (list[i].item_id == id) {
+      //         list[i].quantity += 1;
+      //         break;
+      //       }
+      //     }
+      //   }
+      // };
 
-      let boughtInventory = state.inventory;
-      let product = action.product;
-      if (product.type == "consommable") {
-        let stat = product.attribute[2];
-        addBoughtToInvent(
-          boughtInventory.consommable,
-          product.id,
-          product.name,
-          product.desc,
-          stat
-        );
-      } else if (product.type == "ressource") {
-        addBoughtToInvent(boughtInventory.ressource, product.id, product.name, product.desc);
+      // let boughtInventory = state.inventory;
+      // let product = action.product;
+      // if (product.type == "consommable") {
+      //   let stat = product.attribute[2];
+      //   addBoughtToInvent(
+      //     boughtInventory.consommable,
+      //     product.id,
+      //     product.name,
+      //     product.desc,
+      //     stat
+      //   );
+      // } else if (product.type == "ressource") {
+      //   addBoughtToInvent(boughtInventory.ressource, product.id, product.name, product.desc);
+      // } else {
+      //   let stat = product.attribute[2];
+      //   let equipIndex = boughtInventory.equipment.findIndex(
+      //     (elem) => elem.name == product.type
+      //   );
+      //   addBoughtToInvent(
+      //     boughtInventory.equipment[equipIndex].reserve,
+      //     product.id,
+      //     product.name,
+      //     product.desc,
+      //     stat
+      //   );
+      // }
+      console.log(action.product);
+      console.log(state.inventory);
+      // return {
+      //   ...state,
+        // inventory: boughtInventory,
+      // };
+      // TODO
+      const checkPresenceOfBought = state.inventory.find((item) => item.item_id === action.product.id);
+      // product / quantity
+      console.log(state.currentlyShown);
+      if (checkPresenceOfBought) {
+        return {
+          ...state,
+          inventory: state.inventory.map((equip) => equip.item_id === action.product.id ? {...equip, quantity: equip.quantity + action.quantity} : equip),
+          // currentlyShown: state.currentlyShownId === action.product.type
+          // ?
+          // state.currentlyShown.map((equip) => equip.item_id === action.product.id ? {...equip, quantity: equip.quantity + action.quantity} : equip)
+          // : [...state.currentlyShown],
+        };
       } else {
-        let stat = product.attribute[2];
-        let equipIndex = boughtInventory.equipment.findIndex(
-          (elem) => elem.name == product.type
-        );
-        addBoughtToInvent(
-          boughtInventory.equipment[equipIndex].reserve,
-          product.id,
-          product.name,
-          product.desc,
-          stat
-        );
-      }
-      return {
-        ...state,
-        inventory: boughtInventory,
+        return {
+          ...state,
+          inventory: [
+            ...state.inventory,
+            {
+              attributes: action.product.attribute,
+              item_desc: action.product.desc,
+              item_id: action.product.id,
+              name: action.product.name,
+              quantity: action.quantity,
+              type_id: action.product.item_type_id,
+              type_name: action.product.type,
+            },
+          ],
+          // currentlyShown: state.currentlyShownId === action.product.type
+          // ?
+          // [
+          //   ...state.currentlyShown,
+          //   {
+          //     attributes: action.product.attribute,
+          //     item_desc: action.product.desc,
+          //     item_id: action.product.id,
+          //     name: action.product.name,
+          //     quantity: action.quantity,
+          //     type_id: action.product.item_type_id,
+          //     type_name: action.product.type,
+          //   },
+          // ]
+          // : [...state.currentlyShown],
+        };
       };
     case UPDATE_CHARACTER_LEVEL:
       return {

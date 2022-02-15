@@ -1,4 +1,4 @@
-import { craftItem, GET_CRAFTABLE_ITEMS, updateRecipes } from "../actions/craft";
+import { spendResourcesForCraft, GET_CRAFTABLE_ITEMS, updateRecipes } from "../actions/craft";
 import { GET_ALL_FISH_RESOURCES, updateFishResources } from "../actions/fishing";
 import { GET_ALL_MINE_RESOURCES, updateMineResources } from "../actions/mining";
 import API from './api';

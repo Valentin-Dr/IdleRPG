@@ -3,10 +3,20 @@ export const UPDATE_RECIPES_LIST = 'UPDATE_RECIPES_LIST';
 export const GET_CRAFTABLE_ITEMS = 'GET_CRAFTABLE_ITEMS';
 export const SEND_CRAFTED_ITEM_TO_DB = 'SEND_CRAFTED_ITEM_TO_DB';
 export const COOLDOWN_CRAFT_ITEM = 'COOLDOWN_CRAFT_ITEM';
+export const ADD_CRAFTED_ITEM_TO_INVENTORY = 'ADD_CRAFTED_ITEM_TO_INVENTORY';
 
-export const craftItem = (recipe) => ({
+export const addCraftedItemToInv = (data) => ({
+  type: ADD_CRAFTED_ITEM_TO_INVENTORY,
+  payload: {
+    data,
+  },
+});
+
+export const spendResourcesForCraft = (resource) => ({
   type: SPEND_RESOURCES_FOR_CRAFT,
-  recipe: recipe
+  payload: {
+    resource,
+  },
 });
 
 export const getCraftableItems = () => ({

@@ -4,7 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 // == Import : local
 import './style.scss';
 import '../../styles/allitems.scss';
-import { craftItem, sendCraftedItem, getCraftableItems, sendCraftedItemToDb, setCooldownCraft } from '../../actions/craft';
+import {
+  spendResourcesForCraft,
+  sendCraftedItem,
+  getCraftableItems,
+  sendCraftedItemToDb,
+  setCooldownCraft,
+  addCraftedItemToInv
+} from '../../actions/craft';
 import { useEffect } from 'react';
 
 // == Composant
@@ -17,21 +24,26 @@ const Craft = () => {
   }, []);
 
   const craftButtonOnClick = (e) => {
+    console.log(e.target.id);
     const currentRecipe = recipes.find((recipe) => recipe.id == e.target.id);
-    let nbrResource = 0;
-    currentRecipe.ingredients.forEach(substance => {
-      for (let i = 0; i < inventory.ressource.length; i++) {
-        if (substance.component_id == inventory.ressource[i].item_id && substance.quantity <= inventory.ressource[i].quantity) {
-          nbrResource++;
-        }
-      }
-    });
-    if (nbrResource == currentRecipe.ingredients.length) {
+    console.log(currentRecipe);
+    const neededResource = inventory.find((resource) => resource.name === currentRecipe.ingredients[0].name);
+    console.log(neededResource);
+    // let nbrResource = 0;
+    // currentRecipe.ingredients.forEach(substance => {
+    //   for (let i = 0; i < inventory.ressource.length; i++) {
+    //     if (substance.component_id == inventory.ressource[i].item_id && substance.quantity <= inventory.ressource[i].quantity) {
+    //       nbrResource++;
+    //     }
+    //   }
+    // });
+    if (neededResource.quantity >= currentRecipe.ingredients[0].quantity) {
       // Limitation pour empêcher de spam la base de données
       if (canCraft) {
         dispatch(setCooldownCraft());
         dispatch(sendCraftedItemToDb(currentRecipe.id, currentRecipe.ingredients[0].component_id, currentRecipe.ingredients[0].quantity));
-        dispatch(craftItem(currentRecipe));
+        dispatch(spendResourcesForCraft(currentRecipe.ingredients[0]));
+        dispatch(addCraftedItemToInv(currentRecipe));
         setTimeout(() => {
           dispatch(setCooldownCraft());
         }, 2000);

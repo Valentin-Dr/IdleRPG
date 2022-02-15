@@ -66,7 +66,7 @@ export default function Fishing({job}) {
         const quantity = Math.floor((level / 6) + 1);
         const exp = Math.floor(1 + (wr.attribute[0].value / 8));
         dispatch(sendFishToDb(id, quantity, exp));
-        dispatch(sendResourceToInventory(name, id, 'consommable', quantity, desc, stat.value));
+        dispatch(sendResourceToInventory(wr, quantity));
         dispatch(addLogMessage(exp, quantity));
       }, actionTime);
 

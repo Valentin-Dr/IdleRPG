@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import characterData from "../../../data/character";
-import { changeShownItems, posterCategory, posterEquipment } from "../../actions/character";
+import { changeShownId, changeShownItems, posterCategory, posterEquipment, refreshShownItemsAuto } from "../../actions/character";
 import Objects from "../Object";
 import Details from "./details";
 import Equipment from "./equipment";
@@ -46,6 +46,10 @@ const Inventory = () => {
   //     <Objects key={i.id} {...i} type={i.name}/>
   //   ));
 
+    useEffect(() => {
+      dispatch(refreshShownItemsAuto());
+    }, []);
+
   //trier arme par type
   // jsxWeapon.sort((a, b) => a.type - b.type);
   //menu affichage des catégories dans le panneau d'inventaire
@@ -54,9 +58,11 @@ const Inventory = () => {
     if (id !== "consommable" && id !== "ressource") {
       const newItems = inventory.filter((item) => item.type_name !== "consommable" && item.type_name !== "ressource");
       dispatch(changeShownItems(newItems));
+      dispatch(changeShownId(id));
     } else {
       const newItems = inventory.filter((item) => item.type_name === id);
       dispatch(changeShownItems(newItems));
+      dispatch(changeShownId(id));
     }
     // console.log(posterCat);
     // dispatch(posterCategory(e.currentTarget.getAttribute("name")));
