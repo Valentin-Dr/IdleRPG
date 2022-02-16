@@ -24,7 +24,7 @@ const Objects = (object) => {
     console.log(equipments);
     dispatch(setDetails(object));
   }
-  // console.log(object);
+  console.log(object);
   return (
     <div className={selected == object.name ? "object on" : "object"}>
       <div className="inner">

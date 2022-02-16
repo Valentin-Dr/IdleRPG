@@ -13,6 +13,7 @@ import {
   UPDATE_MONSTER_HP,
   ADD_LOG_MESSAGE_DROP_SUCCESS,
   UPDATE_CHARACTER_LEVEL,
+  ADD_LOG_MESSAGE_MONSTER_DEAD,
 
 } from '../actions/fight';
 
@@ -77,9 +78,9 @@ const fight = (state = initialState, action = {}) => {
     case UPDATE_MONSTER_HP:
       return {
         ...state,
-        currentMonsterHP: state.currentMonster.attributes[3].value,
-        currentMonsterMaxHP: state.currentMonster.attributes[3].value,
-        currentMonsterClass: state.currentMonster.name.replace(/['"]+/g, "").replace(/\s/g, ""),
+        currentMonsterHP: state.currentMonster && state.currentMonster.attributes[3].value,
+        currentMonsterMaxHP: state.currentMonster && state.currentMonster.attributes[3].value,
+        currentMonsterClass: state.currentMonster && state.currentMonster.name.replace(/['"]+/g, "").replace(/\s/g, ""),
       };
     case MANUAL_CHANGE_MONSTER_BEFORE:
       return {
@@ -120,6 +121,14 @@ const fight = (state = initialState, action = {}) => {
             ...state.logMessages.slice(0, 99),
           ],
         };
+      case ADD_LOG_MESSAGE_MONSTER_DEAD:
+        return {
+          ...state,
+          logMessages: [
+            <p key={uuidv4()} className="greenLog">Vous avez tué {action.payload.monster}</p>,
+              ...state.logMessages.slice(0, 99),
+          ]
+        }
       case DEATH_OF_PLAYER:
         return {
           ...state,

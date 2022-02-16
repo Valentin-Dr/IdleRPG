@@ -36,8 +36,7 @@ const fightMiddleware = (store) => (next) => (action) => {
             const userAction = logUser(newToken, foundName, foundId);
             store.dispatch(userAction);
             if(state.character.level !== response.data.level) {
-              store.dispatch(updateCharacterLevel(response.data.level));
-              store.dispatch(updateLevel(response.data));
+              store.dispatch(updateCharacterLevel(response.data));
               store.dispatch(addStatsPoints());
             }
           }
@@ -49,7 +48,6 @@ const fightMiddleware = (store) => (next) => (action) => {
       next(action);
       break;
     };
-    // TODO NE MARCHE PAS
     case ADD_STATS_POINTS_AFTER_LVL_UP: {
       const characterId = localStorage.getItem('characterId');
       const foundToken = localStorage.getItem('profile');

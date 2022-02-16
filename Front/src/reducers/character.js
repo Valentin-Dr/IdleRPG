@@ -62,6 +62,7 @@ const character = (state = initialState, action = {}) => {
     case REFRESH_SHOWN_ITEMS:
       return {
         ...state,
+        currentlyShown: [],
         currentlyShown: state.currentlyShownId
         && state.currentlyShownId !== "consommable" && state.currentlyShownId !== "ressource"
         ? [...state.inventory.filter((i) => i.type_name !== "consommable" && i.type_name !== "ressource")]
@@ -572,8 +573,8 @@ const character = (state = initialState, action = {}) => {
       //     stat
       //   );
       // }
-      console.log(action.product);
-      console.log(state.inventory);
+      // console.log(action.product);
+      // console.log(state.inventory);
       // return {
       //   ...state,
         // inventory: boughtInventory,
@@ -581,7 +582,7 @@ const character = (state = initialState, action = {}) => {
       // TODO
       const checkPresenceOfBought = state.inventory.find((item) => item.item_id === action.product.id);
       // product / quantity
-      console.log(state.currentlyShown);
+      // console.log(state.currentlyShown);
       if (checkPresenceOfBought) {
         return {
           ...state,
@@ -626,7 +627,9 @@ const character = (state = initialState, action = {}) => {
     case UPDATE_CHARACTER_LEVEL:
       return {
         ...state,
-        level: action.payload.newLvl,
+        exp_floor: action.payload.data.exp_floor,
+        exp_up: action.payload.data.exp_up,
+        level: action.payload.data.level,
       };
     // TODO FIX FIGHTMIDDLEWARE
     case ADD_STATS_POINTS_AFTER_LVL_UP:
@@ -636,69 +639,82 @@ const character = (state = initialState, action = {}) => {
         points: state.points + 5,
       };
     case UPDATE_AFTER_FIGHT:
-      //MAJ inventaire avec objets gagnés lors du combat
-      const changeInventory = (inventory, cmr) => {
-        if (inventory.find(obj => obj.item_id == cmr.item_id) == undefined) {
-          //créer objet et l'ajouter dans l'inventaire si il n'y est pas
-          let fightObj = {
-            item_id: cmr.item_id,
-            name: cmr.item_name,
-            img_path: cmr.item_name.replace(/['"]+/g, "").replace(/\s/g, ""),
-            description: cmr.item_desc,
-            quantity: cmr.quantity,
-          }
-          if (cmr.item_type_name != 'ressource') {
-            let stat = cmr.attr.find(attr => (attr.name != 'niveau' && attr.name != 'prix'))
-            fightObj.statistique = stat.value;
-          }
-          inventory.push(fightObj);
-        } else {
-          //si objet dans l'inventaire, augmenter sa quantité
-          for (let i = 0; i < inventory.length; i++) {
-            if (inventory[i].item_id == cmr.item_id) {
-              inventory[i].quantity += cmr.quantity;
-            }
-          }
-        }
-        return inventory;
-      }
-      //si combat perdu il se passe rien
-      if (!action.hasWin) return {
-        state,
-        vie: 0,
-      };
+      // //MAJ inventaire avec objets gagnés lors du combat
+      // const changeInventory = (inventory, cmr) => {
+      //   if (inventory.find(obj => obj.item_id == cmr.item_id) == undefined) {
+      //     //créer objet et l'ajouter dans l'inventaire si il n'y est pas
+      //     let fightObj = {
+      //       item_id: cmr.item_id,
+      //       name: cmr.item_name,
+      //       img_path: cmr.item_name.replace(/['"]+/g, "").replace(/\s/g, ""),
+      //       description: cmr.item_desc,
+      //       quantity: cmr.quantity,
+      //     }
+      //     if (cmr.item_type_name != 'ressource') {
+      //       let stat = cmr.attr.find(attr => (attr.name != 'niveau' && attr.name != 'prix'))
+      //       fightObj.statistique = stat.value;
+      //     }
+      //     inventory.push(fightObj);
+      //   } else {
+      //     //si objet dans l'inventaire, augmenter sa quantité
+      //     for (let i = 0; i < inventory.length; i++) {
+      //       if (inventory[i].item_id == cmr.item_id) {
+      //         inventory[i].quantity += cmr.quantity;
+      //       }
+      //     }
+      //   }
+      //   return inventory;
+      // }
+      // //si combat perdu il se passe rien
+      // if (!action.hasWin) return {
+      //   state,
+      //   vie: 0,
+      // };
 
-      let fightInventory = state.inventory;
-      if (action.hasLoot) {
-        //si objet gagner lors du combat MAJ inventaire
-        if (action.cmr.item_type_name == 'consommable' || action.cmr.item_type_name == 'ressource') {
-          fightInventory[action.item_type_name] = changeInventory(fightInventory[action.cmr.item_type_name], action.cmr);
-        }  else {
-          for (let i = 0; i < fightInventory.equipment.length; i++) {
-            if (fightInventory.equipment[i].name == action.cmr.item_type_name) {
-              fightInventory.equipment[i] = changeInventory(fightInventory.equipment[i].reserve, action.cmr);
-              break;
-            }
-          }
-        }
-      }
-     
-      return {
-        ...state,
-        vie: action.newHp,
-        gold: state.gold + action.goldValue,
-        exp: state.exp + action.expValue,
-        inventory: fightInventory,
+      // let fightInventory = state.inventory;
+      // if (action.hasLoot) {
+      //   //si objet gagner lors du combat MAJ inventaire
+      //   if (action.cmr.item_type_name == 'consommable' || action.cmr.item_type_name == 'ressource') {
+      //     fightInventory[action.item_type_name] = changeInventory(fightInventory[action.cmr.item_type_name], action.cmr);
+      //   }  else {
+      //     for (let i = 0; i < fightInventory.equipment.length; i++) {
+      //       if (fightInventory.equipment[i].name == action.cmr.item_type_name) {
+      //         fightInventory.equipment[i] = changeInventory(fightInventory.equipment[i].reserve, action.cmr);
+      //         break;
+      //       }
+      //     }
+      //   }
+      // }
+      const checkPresenceOfDrop = state.inventory.find((i) => i.item_id === action.cmr.item_id);
+      if (checkPresenceOfDrop && action.hasLoot) {
+        return {
+          ...state,
+          vie: action.newHp,
+          gold: state.gold + action.goldValue,
+          exp: state.exp + action.expValue,
+          inventory: state.inventory.map((item) => item.item_id === action.cmr.item_id ? {...item, quantity: item.quantity + action.cmr.quantity} : item)
+        };
+      } else if (!checkPresenceOfDrop && action.hasLoot) {
+        return {
+          ...state,
+          vie: action.newHp,
+          gold: state.gold + action.goldValue,
+          exp: state.exp + action.expValue,
+          inventory: [
+            ...state.inventory,
+            {
+              attributes: action.cmr.attributes,
+              item_desc: action.cmr.item_desc,
+              item_id: action.cmr.item_id,
+              name: action.cmr.name,
+              quantity: action.cmr.quantity,
+              type_id: action.cmr.item_type_id,
+              type_name: action.cmr.item_type_name,
+            },
+          ],
+        };
       };
-    case UPDATE_LEVEL:
-      //ajout de points après changement de niveau
-      return {
-        ...state,
-        exp_up: action.exp_up,
-        exp_floor: action.exp_floor,
-        level: action.level,
-      };
-    default:
+      default:
       return state;
   }
 };

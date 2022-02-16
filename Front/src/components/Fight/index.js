@@ -15,6 +15,7 @@ import {
   updateMonsterHp,
   updateAfterFight,
   addLogMessageDrop,
+  addLogMessageMonsterDead,
 } from '../../actions/fight';
 // == Import : local
 import './styles.scss';
@@ -67,6 +68,7 @@ const Fight = () => {
           if(dropChance <= cmr.drop_rate) {
             dispatch(addLogMessageDrop(cmr.item_name, cmr.quantity));
           };
+          dispatch(addLogMessageMonsterDead(cm.name));
           dispatch(updateAfterFight(cm.reward_exp, cm.reward_gold, dropChance <= cmr.drop_rate, vie, true, cmr));
           dispatch(autoMonsterSwitch ? getNewMonster(false, level) : getNewMonster(true, level));
           // Si le monstre n'a pas perdu de vie
