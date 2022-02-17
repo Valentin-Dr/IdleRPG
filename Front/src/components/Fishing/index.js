@@ -75,10 +75,10 @@ export default function Fishing({job}) {
 
   // Choix de la ressource
   const switchResource = (e) => {
-    console.log(inventory);
     const workingResource = resources.find(resource => resource.name.replace(/['"]+/g, "").replace(/\s/g, "") === e.target.className.split(' ')[1]);
+    console.log(workingResource);
     if (level >= workingResource.attribute[0].value) {
-      dispatch(setCurrentResource(e.target.className.split(' ')[1], workingResource.attribute[0].value )); // EXP GAGNÉE
+      dispatch(setCurrentResource(workingResource.name, workingResource.attribute[0].value )); // EXP GAGNÉE
     }
   }
 
@@ -98,7 +98,7 @@ export default function Fishing({job}) {
         <p className="jobLevel">Niveau {level}</p>
         <div className="playerWorkContainer">
           <div className={`jobPlayer ${isWorking ? "playerFishing" : "playerIdle"}`}></div>
-          <div className={`fishingResource ${currentResource}`}></div>
+          <div className={`fishingResource ${currentResource.replace(/\s/g, "")}`}></div>
         </div>
       </div>
       <div className="jobSecondaryContainer">
