@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import './style.scss';
 // == Composant
 const Equipment = (object) => {
-  console.log(object);
   return (
     <div className="equip-block" key={uuidv4()}>
     {object.item_id !== null && (

@@ -49,9 +49,6 @@ const Inventory = () => {
     useEffect(() => {
       dispatch(refreshShownItemsAuto());
     }, []);
-
-  //trier arme par type
-  // jsxWeapon.sort((a, b) => a.type - b.type);
   //menu affichage des catégories dans le panneau d'inventaire
   const refreshShownItems = (e) => {
     const id = e.currentTarget.id;
@@ -64,17 +61,9 @@ const Inventory = () => {
       dispatch(changeShownItems(newItems));
       dispatch(changeShownId(id));
     }
-    // console.log(posterCat);
-    // dispatch(posterCategory(e.currentTarget.getAttribute("name")));
-    // if (e.currentTarget.getAttribute("name") != 'equipement') dispatch(posterEquipment(''));
     activeThumb(e.currentTarget);
   };
-  //création object JSX pour afficher des équipements portés
-  // const JSXaccessories = equipments.map((item) => {
-  //   return (
-  //     <Equipment key={item.name} {...item} />
-  //   )
-  // });
+  // Sert à afficher les objets possédés
   const fillItems = currentlyShown.map((item) => item.quantity > 0 &&
   <Objects key={uuidv4()} {...item} type={item.name}/>
   );
@@ -94,41 +83,15 @@ const Inventory = () => {
               <ul className="menu-inventory">
                 <li className="cat-name vivres" >
                   <div className="inner" id="consommable" onClick={refreshShownItems} name="consommable"></div>
-                  {/* <span>
-                    <span>Vivre</span>
-                  </span> */}
                 </li>
                 <li className="cat-name ressources" >
                 <div className="inner" id="ressource" onClick={refreshShownItems} name="ressource"></div>
-                  {/* <span>
-                    <span>Ressources</span>
-                  </span> */}
                 </li>
                 <li className="cat-name equipement" >
                 <div className="inner" id="equipement" onClick={refreshShownItems} name="equipement"></div>
-                  {/* <span>
-                    <span>Equipement</span>
-                  </span> */}
                 </li>
               </ul>
                 <div className="category-block vivre">{currentlyShown && equipments && fillItems}</div>
-              {/* {posterCat == "equipement" && (
-                <>
-                  <div className="category-block equipement">{jsxEquipement}</div>
-                  {posterEquip == "arme" && (
-                    <div className="category-block arme">{jsxWeapon}</div>
-                  )}
-                  {posterEquip == "armure" && (
-                    <div className="category-block armure">{jsxArmor}</div>
-                  )}
-                  {posterEquip == "casque" && (
-                    <div className="category-block casque">{jsxHelmet}</div>
-                  )}
-                  {posterEquip == "bottes" && (
-                    <div className="category-block shoes">{jsxShoes}</div>
-                  )}
-                </>
-              )} */}
             </div>
           </div>
           <div className="details-wrapper">

@@ -60,8 +60,7 @@ export default function Fishing({job}) {
       const interval = setInterval(() => {
         const workingResource = resources.find(resource => resource.name === currentResource);
         const wr = workingResource;
-        const { name, id, attribute, desc } = wr;
-        const stat = attribute.find(att => att.name == "soins");
+        const { id } = wr;
         // Calculs des quantités et de l'exp
         const quantity = Math.floor((level / 6) + 1);
         const exp = Math.floor(1 + (wr.attribute[0].value / 8));

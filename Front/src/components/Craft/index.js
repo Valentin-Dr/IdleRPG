@@ -24,19 +24,8 @@ const Craft = () => {
   }, []);
 
   const craftButtonOnClick = (e) => {
-    console.log(e.target.id);
     const currentRecipe = recipes.find((recipe) => recipe.id == e.target.id);
-    console.log(currentRecipe);
     const neededResource = inventory.find((resource) => resource.name === currentRecipe.ingredients[0].name);
-    console.log(neededResource);
-    // let nbrResource = 0;
-    // currentRecipe.ingredients.forEach(substance => {
-    //   for (let i = 0; i < inventory.ressource.length; i++) {
-    //     if (substance.component_id == inventory.ressource[i].item_id && substance.quantity <= inventory.ressource[i].quantity) {
-    //       nbrResource++;
-    //     }
-    //   }
-    // });
     if (neededResource.quantity >= currentRecipe.ingredients[0].quantity) {
       // Limitation pour empêcher de spam la base de données
       if (canCraft) {

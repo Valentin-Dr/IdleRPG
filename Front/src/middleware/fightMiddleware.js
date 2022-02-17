@@ -64,13 +64,7 @@ const fightMiddleware = (store) => (next) => (action) => {
       };
       API(config)
         .then((response) => {
-          // if (response.headers.authorization) {
-          //   const newToken = response.headers.authorization;
-          //   const foundName = JSON.parse(localStorage.getItem('name'));
-          //   const foundId = JSON.parse(localStorage.getItem('userId'));
-          //   const userAction = logUser(newToken, foundName, foundId);
-          //   store.dispatch(userAction);
-          // }
+          // Pas besoin de relog l'user, cette requête ne demande pas de clé
           // console.log(response);
         })
         .catch((error) => {

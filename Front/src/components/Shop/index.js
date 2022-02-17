@@ -37,8 +37,6 @@ export default function Shop() {
     const currentItem = stuffs.find((stuff) => stuff.id == isOpen.id);
     if (gold >= stuffs.find((stuff) => stuff.id == isOpen.id).attribute.find((att) => att.name === 'prix').value) {
       dispatch(buyItem(stuffs.find((stuff) => stuff.id == isOpen.id).attribute.find((att) => att.name === 'prix').value));
-      // console.log(stuffs.find((stuff) => stuff.id == isOpen.id));
-      console.log('currentItem', currentItem);
       dispatch(sendBuyItemToDb(currentItem, 1));
       dispatch(modaleClose());
     }
