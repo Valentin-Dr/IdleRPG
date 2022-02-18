@@ -15,12 +15,13 @@ export default function Home() {
     <div className="home">
       <div className="main">
         <div className="lore">
-          <p>
-            IdleRPG est développé par une petite équipe de passionnés,
-            venant d'horizons différents et mettant en avant leur
-            compétences et savoir faire pour vous apporter la meilleure
-            expérience de jeu possible.
-          </p>
+            <h2>Update 0.0.6</h2>
+            <h3>18/02/2022</h3>
+            <ul>
+              <li>Refonte du code de l'onglet Profil</li>
+              <li>Fix pêche (la carpe dorée faisait planter)</li>
+              <li>Fix combat (Dans certains cas, le niveau n'était pas mis à jour et causait une déconnexion)</li>
+            </ul>
           <p>
             L'équipe de dév.
           </p>
@@ -87,9 +88,9 @@ export default function Home() {
         <span className="mail">Contactez-nous&nbsp;: Idle.RPG.fr@gmail.com</span>
       </div>
       <div className="update">
-        <span className="update-text">Le jeu est en cours de maintenance, mise à jour à la version 0.0.5, merci de bien vouloir patienter et de revenir ultérieurement ...&nbsp;</span>
-        <span className="update-text">Le jeu est en cours de maintenance, mise à jour à la version 0.0.5, merci de bien vouloir patienter et de revenir ultérieurement ...&nbsp;</span>
-        <span className="update-text">Le jeu est en cours de maintenance, mise à jour à la version 0.0.5, merci de bien vouloir patienter et de revenir ultérieurement ...&nbsp;</span>
+        <span className="update-text">Le jeu est encore en cours de création, merci de nous indiquer bugs et suggestions dans le mail ci dessous ...&nbsp;</span>
+        <span className="update-text">Le jeu est encore en cours de création, merci de nous indiquer bugs et suggestions dans le mail ci dessous ...&nbsp;</span>
+        <span className="update-text">Le jeu est encore en cours de création, merci de nous indiquer bugs et suggestions dans le mail ci dessous ...&nbsp;</span>
       </div>
     </div>
   );

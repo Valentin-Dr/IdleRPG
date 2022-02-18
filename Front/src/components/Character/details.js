@@ -15,7 +15,6 @@ const Details = ({object}) => {
   }
   //update equipment and stats after puting on some equipment
   const changeEquip = () => {
-    console.log(object);
     dispatch(equipBackToInv(object));
     dispatch(updateEquip(object));
   }
@@ -23,7 +22,6 @@ const Details = ({object}) => {
   const consommer = () => {
     dispatch(updateVivre(object.name, object.statistique, object.item_id));
   }
-  console.log(object);
   return (
       <div className="details">
         <div className="close-details" onClick={shutDetails}>X</div>
