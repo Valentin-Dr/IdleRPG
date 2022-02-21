@@ -50,6 +50,15 @@ export default function Shop() {
     const selectedId = e.target.parentElement.parentElement.id;
     dispatch(modaleOpen(selectedId));
   };
+  const convert = (value) => {
+    if (value >= 1000000) {
+      value = `${Math.floor(value / 1000000)}M`;
+    }
+    else if (value >= 1000) {
+      value = `${Math.floor(value / 1000)}K`;
+    }
+    return value;
+  };
   // newShopArray && console.log(newShopArray);
   return (
     <>
@@ -59,7 +68,7 @@ export default function Shop() {
           <p>Boutique</p>
         </div>
         <div className="money">
-          {gold}&nbsp;<img className="money-image" src={boutiqueLogo} alt="or" />
+          {convert(gold)}&nbsp;<img className="money-image" src={boutiqueLogo} alt="or" />
         </div>
         <div className="shop-inventory">
           { newShopArray.map((stuff) => (

@@ -7,7 +7,7 @@ import {
   craftLogo,
   fishingLogo,
   inventoryLogo,
-  miningLogo
+  miningLogo,
 } from 'src/assets/idleMenuIcons';
 import { posterMenu } from "../../actions/user";
 import logo from '../../assets/logo.png';
@@ -84,6 +84,12 @@ export default function Menu() {
       >
         <img className="navHidden" src={fishingLogo}></img>
         <button className="fishing" onClick={seeMenu}>Pêche</button>
+      </NavLink>
+      <NavLink
+        key="/success"
+        to="/success"
+      >
+        <button className="inventory" onClick={seeMenu}>Succès</button>
       </NavLink>
       {/* <iframe width="100%" height="450" scrolling="no" allow="autoplay"
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1233926452&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
