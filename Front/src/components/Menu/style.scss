@@ -12,6 +12,7 @@
   width: 20%;
   height: 100vh;
   background: vars.$baseColor;
+  overflow: auto;
 
   & button {
     width: 15vw;

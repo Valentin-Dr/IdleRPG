@@ -22,6 +22,13 @@ export default function Home() {
               <li>Fix pêche (la carpe dorée faisait planter)</li>
               <li>Fix combat (Dans certains cas, le niveau n'était pas mis à jour et causait une déconnexion)</li>
             </ul>
+            <h2>Update 0.0.6.1</h2>
+            <h3>21/02/2022</h3>
+            <ul>
+              <li>Correction de l'affichage de l'argent en boutique</li>
+              <li>Correction de l'affichage du menu</li>
+              <li>Ajout d'un système de succès (en cours)</li>
+            </ul>
           <p>
             L'équipe de dév.
           </p>
