@@ -85,6 +85,13 @@ export default function Menu() {
         <img className="navHidden" src={fishingLogo}></img>
         <button className="fishing" onClick={seeMenu}>Pêche</button>
       </NavLink>
+      <NavLink
+        key="/rebirth"
+        to="/rebirth"
+      >
+        {/* <img className="navHidden" src={fishingLogo}></img> */}
+        <button className="fishing" onClick={seeMenu}>Rebirth</button>
+      </NavLink>
       {/* <iframe width="100%" height="450" scrolling="no" allow="autoplay"
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1233926452&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
       </iframe> */}

@@ -12,13 +12,12 @@ import {
   GET_MINE_NAME_AND_LEVEL,
   UPDATE_MINING_LEVEL,
 } from '../actions/mining';
+import { ACTIVATE_REBIRTH } from '../actions/rebirth';
 
 const initialState = {
-    name: '',
-    level: 5,
+    name: 'Minage',
+    level: 1,
     experience: 0,
-    experiencePurcentage: 0,
-    levelUpReq: 10000,
     currentResource: '',
     currentResourceExperience: 0,
     isWorking: false,
@@ -32,6 +31,17 @@ const initialState = {
 const jobs = (state = initialState, action = {}) => {
   switch (action.type) {
     // MINING
+    case ACTIVATE_REBIRTH:
+      return {
+        ...state,
+        level: 1,
+        experience: 0,
+        currentResource: '',
+        currentResourceExperience: 0,
+        isWorking: false,
+        buttonTitle: 'Commencer à travailler',
+        logMessages: [],
+      }
     case SET_WORKING_MINE:
       return {
         ...state,

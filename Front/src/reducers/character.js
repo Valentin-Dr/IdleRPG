@@ -12,6 +12,7 @@ import {
   ADD_STATS_POINTS_AFTER_LVL_UP,
   UPDATE_LEVEL,
 } from "../actions/fight";
+import { ACTIVATE_REBIRTH } from "../actions/rebirth";
 
 const initialState = {
   nom: "The Counter",
@@ -45,10 +46,39 @@ const initialState = {
   pointsendurance: 0,
   pointsforce: 0,
   pointsdextérité: 0,
+  rebirthAmount: 0,
+  rebirthFruits: 0,
+  hasRebirthed: false,
 };
 
 const character = (state = initialState, action = {}) => {
   switch (action.type) {
+    case ACTIVATE_REBIRTH:
+      return {
+        ...state,
+        exp: 0,
+        exp_up: 30,
+        exp_floor: 0,
+        level: 1,
+        inventory: [],
+        equipments: [],
+        currentlyShown: [],
+        currentlyShownId: "",
+        vie: 100,
+        force: 0,
+        endurance: 0,
+        dextérité: 0,
+        gold: 0,
+        points: 0,
+        posterCat: "",
+        posterEquip: "",
+        selected: "",
+        pointsendurance: 0,
+        pointsforce: 0,
+        pointsdextérité: 0,
+        rebirthAmount: state.rebirthAmount + 1,
+        rebirthFruits: state.rebirthFruits + action.payload.level,
+      }
     case CHANGE_SHOWN_ITEMS_INV:
       return {
         ...state,

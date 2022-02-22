@@ -11,6 +11,7 @@ import {
   GET_FISH_NAME_AND_LEVEL,
   UPDATE_FISHING_LEVEL
 } from '../actions/fishing';
+import { ACTIVATE_REBIRTH } from '../actions/rebirth';
 
 const initialState = {
     name: 'Pêche',
@@ -28,7 +29,17 @@ const initialState = {
 
 const jobs = (state = initialState, action = {}) => {
   switch (action.type) {
-    // MINING
+    case ACTIVATE_REBIRTH:
+      return {
+        ...state,
+        level: 1,
+        experience: 0,
+        currentResource: '',
+        currentResourceExperience: 0,
+        isWorking: false,
+        buttonTitle: 'Commencer à travailler',
+        logMessages: [],
+      }
     case SET_WORKING_FISH:
       return {
         ...state,

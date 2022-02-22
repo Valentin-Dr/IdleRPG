@@ -1,0 +1,48 @@
+@use 'src/styles/vars';
+
+.rebirth {
+  &-notallowed {
+    background: red;
+  }
+  &-title {
+    font-size: 3rem;
+    margin: 20px 0;
+  }
+  &-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    //   flex-wrap: wrap;
+    //   justify-content: space-around;
+    //   align-items: center;
+    text-align: center;
+    border: 1px rgba(0, 0, 0, 0.164) solid;
+    background: vars.$baseColor;
+    box-shadow: inset 1px 1px 5px white;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 10vh;
+    padding: 5%;
+    width: 70%;
+    min-height: 70vh;
+    max-height: fit-content;
+    font-size: 0.8rem;
+    line-height: 2rem;
+    & .warning {
+      padding: 10px;
+      color: red;
+      font-size: 1.1rem;
+    }
+    & .globalLevel {
+      color: red;
+    }
+  }
+  &-sub {
+    margin: auto;
+    width: 50%;
+    border: 1px rgba(0, 0, 0, 0.164) solid;
+    background: vars.$baseColor;
+    box-shadow: inset 1px 1px 5px white;
+    border-radius: 10px;
+  }
+}
