@@ -27,7 +27,7 @@
     min-height: 70vh;
     max-height: fit-content;
     font-size: 0.8rem;
-    line-height: 2rem;
+    // line-height: 2rem;
     & .warning {
       padding: 10px;
       color: red;
@@ -38,6 +38,8 @@
     }
   }
   &-sub {
+    line-height: normal;
+    padding: 10px;
     margin: auto;
     width: 50%;
     border: 1px rgba(0, 0, 0, 0.164) solid;

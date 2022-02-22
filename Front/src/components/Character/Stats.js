@@ -19,6 +19,7 @@ export default function Stats() {
     pointsendurance,
     pointsforce,
     pointsdextérité,
+    rebirthFruits,
   } = useSelector((state) => state.character);
 
   //champ contrôlé pour répartition des points dans les stats de performance du personnage
@@ -100,6 +101,12 @@ export default function Stats() {
           <div className="info-stat">
             <span className="stat-name">Points</span>
             <span className="stat-nbr">{points}</span>
+          </div>
+        </li>
+        <li className="stat-block stat-fruits">
+          <div className="info-stat">
+            <span className="stat-name">Fruits de renaissance</span>
+            <span className="stat-nbr">{rebirthFruits}</span>
           </div>
         </li>
       </ul>

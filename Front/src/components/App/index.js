@@ -12,6 +12,7 @@ import Shop from "../Shop";
 import Fishing from "../Fishing";
 import Mining from "../Mining";
 import Rebirth from "../Rebirth";
+import Upgrades from "../Upgrades";
 
 
 import "./style.scss";
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/jobs/mining" element={<Mining job="mining" />} />
           <Route path="/jobs/fishing" element={<Fishing job="fishing" />} />
           <Route path="/rebirth" element={<Rebirth />} />
+          <Route path="/upgrades" element={<Upgrades />} />
         </>
         )
         }
@@ -67,6 +69,7 @@ const App = () => {
             <Route path="/jobs/mining" element={<NotAuthorize />} />
             <Route path="/jobs/fishing" element={<NotAuthorize />} />
             <Route path="/rebirth" element={<NotAuthorize />} />
+            <Route path="/upgrades" element={<NotAuthorize />} />
           </>
           )
         }

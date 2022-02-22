@@ -1,0 +1,51 @@
+@use 'src/styles/vars';
+
+.upgrades {
+  &-totalFruits {
+    width: 100%;
+  }
+  &-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    text-align: center;
+    border: 1px rgba(0, 0, 0, 0.164) solid;
+    background: vars.$baseColor;
+    box-shadow: inset 1px 1px 5px white;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 10vh;
+    padding: 5%;
+    width: 70%;
+    min-height: 70vh;
+    max-height: 70vh;
+    overflow-y: scroll;
+    font-size: 0.8rem;
+  }
+  &-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0;
+    width: 30%;
+    height: 25vh;
+    border: 1px rgba(0, 0, 0, 0.164) solid;
+    border-radius: 10px;
+    background: vars.$baseColor;
+    &-title {
+      font-size: 1.2rem;
+    }
+    &-desc {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.forcesurhumaine {
+  background: url('../../../public/images/upgrades/forcesurhumaine.png');
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+}

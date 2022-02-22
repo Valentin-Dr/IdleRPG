@@ -9,6 +9,7 @@ import {
   inventoryLogo,
   miningLogo
 } from 'src/assets/idleMenuIcons';
+import rebirthfruit from '../../../public/images/rebirthfruit.png';
 import { posterMenu } from "../../actions/user";
 import logo from '../../assets/logo.png';
 import './style.scss';
@@ -89,7 +90,7 @@ export default function Menu() {
         key="/rebirth"
         to="/rebirth"
       >
-        {/* <img className="navHidden" src={fishingLogo}></img> */}
+        <img className="navHidden" src={rebirthfruit}></img>
         <button className="fishing" onClick={seeMenu}>Rebirth</button>
       </NavLink>
       {/* <iframe width="100%" height="450" scrolling="no" allow="autoplay"

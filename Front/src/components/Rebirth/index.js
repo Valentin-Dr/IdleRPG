@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import rebirthfruit from '../../../public/images/rebirthfruit.png';
 import { activateRebirth } from '../../actions/rebirth';
+import { NavLink } from 'react-router-dom';
 
 import './style.scss';
 
@@ -21,15 +22,21 @@ export default function Rebirth() {
       <h2 className="rebirth-title">Rebirth</h2>
       <div className="rebirth-sub">
         <p>Actuellement, votre niveau global est de <span className="globalLevel">{totalLevel}</span></p>
-        <p>A partir du niveau global 100, vous pouvez renaître</p>
+        <p>A partir du niveau global 100, vous pouvez renaître.</p>
         <p>Cela vous procurera divers avantages, cependant</p>
-        <p className="warning">Vous perdrez toute la progression de votre personnage, sauf vos fruits de renaissance et vos compétences</p>
-        <p>Vous récupérerez un certain nombre de fruits de renaissance, basé sur le niveau global de votre personnage et le nombre de renaissances déjà effectuées</p>
-        <p>Si vous renaîssez maintenant, vous obtiendrez :</p>
+        <p className="warning">Vous perdrez toute la progression de votre personnage, sauf vos fruits de renaissance et vos compétences.</p>
+        <p>Vous récupérerez un certain nombre de fruits de renaissance, basé sur le niveau global de votre personnage et le nombre de renaissances déjà effectuées.</p>
+        <p>Si vous renaîssez maintenant, vous obtiendrez&nbsp;:</p>
         <p>{calcTotalFruits}<img src={rebirthfruit} alt="rebirth fruit" /></p>
         {rebirthAmount === 0 && <p>L'accès aux Compétences</p>}
-        {rebirthAmount === 0 && <p>L'accès aux Familiers</p>}
-        <button className={totalLevel < 100 && "rebirth-notallowed"} onClick={rebirthButton}>Renaître</button>
+        {rebirthAmount === 0 && <p>L'accès aux Familiers (SOON)</p>}
+        <button className={totalLevel < 100 && "rebirth-notallowed"} onClick={totalLevel >= 100 ? rebirthButton : undefined}>Renaître</button>
+        <NavLink
+        key="/upgrades"
+        to="/upgrades"
+      >
+        <button className="combat">Compétences</button>
+      </NavLink>
       </div>
     </div>
   )

@@ -8,7 +8,7 @@
     padding: 15px;
     box-sizing: border-box;
     .inner-panel {
-      height: 300px;
+      height: fit-content;
       border: 1px rgba(0, 0, 0, 0.164) solid;
       background: vars.$baseColor;
       box-shadow: inset 1px 1px 5px white;
@@ -216,6 +216,7 @@
   align-items: center;
   justify-content: center;
   .equip-block {
+    padding: 38px 0;
     flex-basis: 50%;
     flex-grow: 0;
     flex-shrink: 0;
@@ -279,6 +280,9 @@
   }
   &.stat-points{
     background-image: url('../../../public/images/stats/medal.png');
+  }
+  &.stat-fruits{
+    background-image: url('../../../public/images/rebirthfruit.png');
   }
   .gauge{
     position: relative;;
