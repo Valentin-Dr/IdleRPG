@@ -5,7 +5,7 @@ import './style.scss';
 
 // == Composant
 const Details = ({object}) => {
-  
+  console.log(object);
   const { vie, equipments } = useSelector((state) => state.character);
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const Details = ({object}) => {
         <div className="quantity">Quantité : {object.quantity}</div>
         { object.type !== 2 && <><div className="statistique">Stats : {object.statistique}</div></>}
         { object.type === 1 && vie < 100 && <><button className="cta" onClick={consommer}>Consommer</button></>}
-        { object.type !== 1 && object.type !== 2 && equipments[object.type] !== object.item_id &&
+        { object.type == 3 &&
         <><button className="cta" onClick={changeEquip}>Enfiler</button></>}
       </div>
   );

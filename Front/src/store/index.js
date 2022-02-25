@@ -10,6 +10,7 @@ import jobMiddleware from '../middleware/jobMiddleware';
 import logMiddleware from '../middleware/logMiddleware';
 import shopMiddleware from '../middleware/shopMiddleware';
 import characterMiddleware from '../middleware/characterMiddleware';
+import rebirthMiddleware from '../middleware/rebirthMiddleware';
 
 
 // == Enhancers
@@ -23,7 +24,8 @@ const enhancers = composeEnhancers(
     craftMiddleware,
     jobMiddleware,
     fightMiddleware,
-    characterMiddleware
+    characterMiddleware,
+    rebirthMiddleware,
   ),
 );
 

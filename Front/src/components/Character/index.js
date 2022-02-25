@@ -15,7 +15,7 @@ import "./style.scss";
 // == Composant
 const Inventory = () => {
   const dispatch = useDispatch();
-  const { inventory, posterCat, posterEquip, detailsObj, selected, equipments, currentlyShown } = useSelector(
+  const { inventory, posterCat, posterEquip, detailsObj, selected, equipments, currentlyShown, currentlyShownId } = useSelector(
     (state) => state.character
   );
 
@@ -52,19 +52,23 @@ const Inventory = () => {
   //menu affichage des catégories dans le panneau d'inventaire
   const refreshShownItems = (e) => {
     const id = e.currentTarget.id;
-    if (id !== "consommable" && id !== "ressource") {
-      const newItems = inventory.filter((item) => item.type_name !== "consommable" && item.type_name !== "ressource");
-      dispatch(changeShownItems(newItems));
-      dispatch(changeShownId(id));
-    } else {
-      const newItems = inventory.filter((item) => item.type_name === id);
-      dispatch(changeShownItems(newItems));
-      dispatch(changeShownId(id));
-    }
+    console.log(id);
+    console.log(inventory);
+      if (id !== "consommable" && id !== "ressource") {
+        const newItems = inventory.filter((item) => item.type_name !== "consommable" && item.type_name !== "ressource");
+        dispatch(changeShownItems(newItems));
+        dispatch(changeShownId(id));
+      } else {
+        const newItems = inventory.filter((item) => item.type_name === id);
+        console.log(newItems);
+        dispatch(changeShownItems(newItems));
+        dispatch(changeShownId(id));
+      }
     activeThumb(e.currentTarget);
   };
   // Sert à afficher les objets possédés
-  const fillItems = currentlyShown.map((item) => item.quantity > 0 &&
+  console.log(currentlyShown);
+  const fillItems = currentlyShown && currentlyShown.map((item) => item.quantity > 0 &&
   <Objects key={uuidv4()} {...item} type={item.name}/>
   );
   const fillEquips = equipments.map((item) => 

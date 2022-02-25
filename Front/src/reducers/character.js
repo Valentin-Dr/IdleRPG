@@ -47,38 +47,22 @@ const initialState = {
   pointsforce: 0,
   pointsdextérité: 0,
   rebirthAmount: 0,
-  rebirthFruits: 0,
+  rebirthFruits: 200,
   hasRebirthed: false,
 };
 
 const character = (state = initialState, action = {}) => {
   switch (action.type) {
-    case ACTIVATE_REBIRTH:
-      return {
-        ...state,
-        exp: 0,
-        exp_up: 30,
-        exp_floor: 0,
-        level: 1,
-        inventory: [],
-        equipments: [],
-        currentlyShown: [],
-        currentlyShownId: "",
-        vie: 100,
-        force: 0,
-        endurance: 0,
-        dextérité: 0,
-        gold: 0,
-        points: 0,
-        posterCat: "",
-        posterEquip: "",
-        selected: "",
-        pointsendurance: 0,
-        pointsforce: 0,
-        pointsdextérité: 0,
-        rebirthAmount: state.rebirthAmount + 1,
-        rebirthFruits: state.rebirthFruits + action.payload.level,
-      }
+    // case ACTIVATE_REBIRTH:
+    //   return {
+    //     currentlyShown: [],
+    //     currentlyShownId: "",
+    //     posterCat: "",
+    //     posterEquip: "",
+    //     selected: "",
+    //     rebirthAmount: state.rebirthAmount + 1,
+    //     rebirthFruits: state.rebirthFruits + action.payload.level,
+    //   }
     case CHANGE_SHOWN_ITEMS_INV:
       return {
         ...state,
@@ -90,33 +74,40 @@ const character = (state = initialState, action = {}) => {
         currentlyShownId: action.payload.id,
       };
     case REFRESH_SHOWN_ITEMS:
-      return {
-        ...state,
-        currentlyShown: [],
-        currentlyShown: state.currentlyShownId
-        && state.currentlyShownId !== "consommable" && state.currentlyShownId !== "ressource"
-        ? [...state.inventory.filter((i) => i.type_name !== "consommable" && i.type_name !== "ressource")]
-        : [...state.inventory.filter((item) => item.type_name === state.currentlyShownId)],
-      };
-    case SEND_RESOURCE_TO_INVENTORY:
-      // MAJ inventaire après ajout ressource/consommable
-      const checkPresenceOfResource = state.inventory.find((item) => item.item_id === action.payload.item.id);
-      if (checkPresenceOfResource) {
         return {
           ...state,
-          inventory: state.inventory.map((item) => item.item_id === action.payload.item.id
-          ? {...item, quantity: item.quantity + action.payload.quantity}
-          : item),
+          currentlyShown: [],
+          currentlyShown: state.currentlyShownId
+          && state.currentlyShownId !== "consommable" && state.currentlyShownId !== "ressource"
+          ? state.inventory[0] !== null && [...state.inventory.filter((i) => i.type_name !== "consommable" && i.type_name !== "ressource")]
+          : state.inventory[0] !== null && [...state.inventory.filter((item) => item.type_name === state.currentlyShownId)],
         };
-      } else {
-        return {
-          ...state,
-          inventory: [
-            ...state.inventory,
-            {...action.payload.item, item_id: action.payload.item.id},
-          ],
-        };
-      };
+        case SEND_RESOURCE_TO_INVENTORY:
+          console.log(action.payload.item);
+          // MAJ inventaire après ajout ressource/consommable
+            const checkPresenceOfResource = state.inventory.find((item) => item.item_id === action.payload.item.id);
+            if (checkPresenceOfResource) {
+              return {
+                ...state,
+                inventory: state.inventory.map((item) => item.item_id === action.payload.item.id
+                ? {...item, quantity: item.quantity + action.payload.quantity}
+                : item),
+              };
+            } else {
+            return {
+              ...state,
+              inventory: [
+                ...state.inventory,
+                {
+                  ...action.payload.item,
+                  item_id: action.payload.item.id,
+                  quantity: action.payload.quantity,
+                  type_name: action.payload.item.type,
+                  attributes: [...action.payload.item.attribute],
+                },
+              ],
+            };
+          };
     case SPEND_RESOURCES_FOR_CRAFT:
       //MAJ ressources après utilisation pour forger équipement
       return {
@@ -162,9 +153,12 @@ const character = (state = initialState, action = {}) => {
       if (action.data.equipments[2].attributes[0] != null) dataDextérité += action.data.equipments[2].attributes[0].value;
       const dataPoints = action.data.attributes.find(obj => obj.name == "points de caractéristiques");
       const dataVie = action.data.attributes.find(obj => obj.name == "points de vie");
+      console.log(action.data);
       return {
         ...state,
-        inventory: [
+        inventory: action.data.inventory[0] === null
+        ? []
+        : [
           ...action.data.inventory,
         ],
         equipments: [
@@ -180,6 +174,7 @@ const character = (state = initialState, action = {}) => {
         exp_floor:action.data.exp_floor,
         gold:action.data.gold,
         level:action.data.level,
+        rebirthFruits: action.data.rebirth_fruit,
       };  
     case POSTER_CATEGORY:
       //Afficher les éléments de l'inventaire correspondant à l'onglet sélectionné dans le tableau d'inventaire
@@ -196,8 +191,9 @@ const character = (state = initialState, action = {}) => {
         selected: "",
       };
     case SET_DETAILS:
+      console.log(action.detailsObj);
       //Afficher les informations de l'objet sélectionné dans le panneau de détail
-      const { item_id, name, img_path, item_desc, type_id, attributes } = action.detailsObj;
+      const { item_id, name, img_path, item_desc, desc, type_id, attributes } = action.detailsObj;
       let quantity;
       action.detailsObj.reserve == undefined
         ? (quantity = action.detailsObj.quantity)
@@ -208,7 +204,7 @@ const character = (state = initialState, action = {}) => {
           item_id: item_id,
           name: name,
           img_path: name.replace(/['"]+/g, "").replace(/\s/g, ""),
-          description: item_desc,
+          description: item_desc ? item_desc : desc,
           statistique: attributes[1].name === "soins" ? attributes[1].value : attributes[0].value,
           quantity: quantity,
           type: type_id,
@@ -235,7 +231,7 @@ const character = (state = initialState, action = {}) => {
           item_name: newEquipment.name}
           : equip),
           // La stat modifiée
-          [newEquipment.attributes[0].name]: findEquip
+          [newEquipment.attributes[0].name]: findEquip.attributes[0]
           ? state[newEquipment.attributes[0].name] + newEquipment.attributes[0].value - findEquip.attributes[0].value
           : state[newEquipment.attributes[0].name],
         currentlyShown: state.currentlyShown.map((item) => item.item_id === action.item.item_id ? {...item, quantity: item.quantity - 1 } : item),

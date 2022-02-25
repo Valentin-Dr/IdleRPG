@@ -30,7 +30,8 @@ export default function Rebirth() {
         <p>{calcTotalFruits}<img src={rebirthfruit} alt="rebirth fruit" /></p>
         {rebirthAmount === 0 && <p>L'accès aux Compétences</p>}
         {rebirthAmount === 0 && <p>L'accès aux Familiers (SOON)</p>}
-        <button className={totalLevel < 100 && "rebirth-notallowed"} onClick={totalLevel >= 100 ? rebirthButton : undefined}>Renaître</button>
+        {/* <button className={totalLevel < 100 && "rebirth-notallowed"} onClick={totalLevel >= 100 ? rebirthButton : undefined}>Renaître</button> */}
+        <button className={totalLevel < 100 && "rebirth-notallowed"} onClick={rebirthButton}>Renaître</button>
         <NavLink
         key="/upgrades"
         to="/upgrades"

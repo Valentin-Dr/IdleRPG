@@ -3,8 +3,9 @@ const initialState = {
     {
       name: "force surhumaine",
       desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
+      level: 0,
+      effect: 1,
+      incrementEffect: 0.10,
       effectType: "percentage",
       effectStat: "force",
       cost: 50,

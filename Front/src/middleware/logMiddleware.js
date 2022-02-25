@@ -90,7 +90,7 @@ const logMiddleware = (store) => (next) => (action) => {
             const userAction = logUser(newToken, name, id);
             store.dispatch(userAction);
           };
-          // console.log(response);
+          console.log(response);
           store.dispatch(setCharacterData(response.data.character));
           store.dispatch(getMonster(response.data.entities));
           store.dispatch(getNewMonster());
