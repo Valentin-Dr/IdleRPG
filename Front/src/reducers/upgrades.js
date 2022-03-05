@@ -1,116 +1,34 @@
+import { SET_ALL_UPGRADES, UPDATE_CURRENT_UPGRADE } from "../actions/upgrades";
+
 const initialState = {
   upgradesList: [
     {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 0,
-      effect: 1,
-      incrementEffect: 0.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force",
-      level: 2,
-      effect: 1.10,
-      effectType: "raw",
-      effectStat: "force",
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force",
-      level: 2,
-      effect: 1.10,
-      effectType: "raw",
-      effectStat: "force",
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
-    },
-    {
-      name: "force surhumaine",
-      desc: "Décuple (littéralement) votre force de 10% à chaque niveau",
-      level: 2,
-      effect: 1.10,
-      effectType: "percentage",
-      effectStat: "force",
-      cost: 50,
+      id: 0,
+      name: "Chargement...",
+      desc: "Chargement...",
+      level: "Chargement...",
+      effect: "Chargement...",
+      effectType: "Chargement...",
+      effectStat: "Chargement...",
+      cost: "Chargement...",
+      incrementCost: "Chargement...",
     },
   ],
 };
 
 const upgrades = (state = initialState, action = {}) => {
   switch (action.type) {
-    
-    
+    case SET_ALL_UPGRADES: 
+    return {
+      ...state,
+      upgradesList: action.payload.data,
+    };
+    // case UPDATE_CURRENT_UPGRADE:
+    //   return {
+    //     ...state,
+    //     upgradesList: state.upgradesList.map((upg) => upg.id === action.payload.id
+    //     ? {...upg, level_competence: upg.level_competence + 1} : upg)
+    //   }
   default:
     return state;
   }

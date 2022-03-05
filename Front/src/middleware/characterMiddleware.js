@@ -1,4 +1,5 @@
 import { SPARE_POINTS, UPDATE_EQUIPMENT, UPDATE_VIVRE } from '../actions/character';
+import { GET_ALL_UPGRADES, setAllUpgrades } from '../actions/upgrades';
 import { logUser } from '../actions/user';
 import API from './api';
 

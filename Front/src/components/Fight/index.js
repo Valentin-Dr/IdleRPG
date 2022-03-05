@@ -43,7 +43,19 @@ const Fight = () => {
     tooWeak,
     logMessages
   } = useSelector((state) => state.fight);
+  const { upgradesList } = useSelector((state) => state.upgrades);
+  // Filtre des upgrades qui concernent la force
+  // const strUpgrades = upgradesList.filter((upg) => upg.effectStat === "force");
 
+  // let rawStrUpgrades;
+  // for (let i = 0; i < strUpgrades.length; i++) {
+  //   if (strUpgrades[i].effectType === "raw") {
+  //     console.log(strUpgrades[i].effect);
+  //     rawStrUpgrades =+ strUpgrades[i].effect;
+  //   };
+  // };
+
+  // console.log(rawStrUpgrades);
   // Calcul de pourcentage de la vie
   const percentage = (partialValue, maxLife) => (100 * partialValue) / maxLife;
   useEffect(() => {

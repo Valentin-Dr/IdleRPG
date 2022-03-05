@@ -24,6 +24,7 @@ const initialState = {
   equipments: [],
   currentlyShown: [],
   currentlyShownId: "",
+  competences: [],
   detailsObj: {
     item_id: 1,
     name: "",
@@ -163,6 +164,9 @@ const character = (state = initialState, action = {}) => {
         ],
         equipments: [
           ...action.data.equipments,
+        ],
+        competences: [
+          ...action.data.competences,
         ],
         force: dataForce,
         endurance: dataEndurance,

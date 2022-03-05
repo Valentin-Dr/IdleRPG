@@ -28,9 +28,10 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin: 10px 0;
+    margin: 10px;
     width: 30%;
-    height: 25vh;
+    min-width: 200px;
+    height: 30vh;
     border: 1px rgba(0, 0, 0, 0.164) solid;
     border-radius: 10px;
     background: vars.$baseColor;

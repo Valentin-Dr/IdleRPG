@@ -11,6 +11,7 @@ import logMiddleware from '../middleware/logMiddleware';
 import shopMiddleware from '../middleware/shopMiddleware';
 import characterMiddleware from '../middleware/characterMiddleware';
 import rebirthMiddleware from '../middleware/rebirthMiddleware';
+import upgradesMiddleware from '../middleware/upgradesMiddleware';
 
 
 // == Enhancers
@@ -26,6 +27,7 @@ const enhancers = composeEnhancers(
     fightMiddleware,
     characterMiddleware,
     rebirthMiddleware,
+    upgradesMiddleware,
   ),
 );
 
