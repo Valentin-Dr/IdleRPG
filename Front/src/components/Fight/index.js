@@ -52,6 +52,7 @@ const Fight = () => {
         let totalStr
       }
       console.log(strUpgrades);
+      
     }
   }, [competences])
   // Calcul de pourcentage de la vie
