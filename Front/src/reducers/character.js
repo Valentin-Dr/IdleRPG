@@ -1,7 +1,7 @@
 import { SEND_RESOURCE_TO_INVENTORY } from "../actions/mining";
 import { POSTER_CATEGORY, POSTER_EQUIP, SET_DETAILS,
   CLOSE_DETAILS, UPDATE_EQUIPMENT,UPDATE_VIVRE, SPARE_POINTS, UPDATE_NBR_FIELD,
-  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV, CHANGE_SHOWN_ITEMS_ID, REFRESH_SHOWN_ITEMS } from '../actions/character';
+  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV, CHANGE_SHOWN_ITEMS_ID, REFRESH_SHOWN_ITEMS, REFRESH_REBIRTH_FRUITS } from '../actions/character';
 import { ADD_CRAFTED_ITEM_TO_INVENTORY, SPEND_RESOURCES_FOR_CRAFT } from "../actions/craft";
 import { SEND_BUY_ITEM_TO_DB } from "../actions/shop";
 import {
@@ -13,6 +13,7 @@ import {
   UPDATE_LEVEL,
 } from "../actions/fight";
 import { ACTIVATE_REBIRTH } from "../actions/rebirth";
+import { UNLOCK_NEW_UPGRADE } from "../actions/upgrades";
 
 const initialState = {
   nom: "The Counter",
@@ -36,6 +37,7 @@ const initialState = {
   },
   vie: 60,
   force: 150,
+  upgradesForce: 0,
   endurance: 75,
   dextérité: 35,
   gold: 6500,
@@ -367,6 +369,16 @@ const character = (state = initialState, action = {}) => {
           ],
         };
       };
+      case REFRESH_REBIRTH_FRUITS:
+      return {
+        ...state,
+        rebirthFruits: state.rebirthFruits - action.payload.fruits,
+      };
+      case UNLOCK_NEW_UPGRADE:
+        return {
+          ...state,
+          competences: action.payload.competences,
+        };
       default:
       return state;
   }

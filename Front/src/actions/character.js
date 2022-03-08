@@ -12,7 +12,14 @@ export const BUY_ITEM = 'BUY_ITEM';
 export const CHANGE_SHOWN_ITEMS_INV = 'CHANGE_SHOWN_ITEMS_INV';
 export const CHANGE_SHOWN_ITEMS_ID = 'CHANGE_SHOWN_ITEMS_ID';
 export const REFRESH_SHOWN_ITEMS = 'REFRESH_SHOWN_ITEMS';
+export const REFRESH_REBIRTH_FRUITS = 'REFRESH_REBIRTH_FRUITS';
 
+export const refreshRebirthFruits = (fruits) => ({
+  type: REFRESH_REBIRTH_FRUITS,
+  payload: {
+    fruits,
+  },
+});
 
 export const changeShownItems = (data) => ({
   type: CHANGE_SHOWN_ITEMS_INV,

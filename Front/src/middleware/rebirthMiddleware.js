@@ -21,7 +21,7 @@ const rebirthMiddleware = (store) => (next) => (action) => {
         },
         data: {
           characterId: parseInt(characterId, 10),
-          nbFruit: action.payload.fruits,
+          nbFruit: 150000,
         },
       };
       API(config)
