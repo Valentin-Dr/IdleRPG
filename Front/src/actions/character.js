@@ -13,6 +13,22 @@ export const CHANGE_SHOWN_ITEMS_INV = 'CHANGE_SHOWN_ITEMS_INV';
 export const CHANGE_SHOWN_ITEMS_ID = 'CHANGE_SHOWN_ITEMS_ID';
 export const REFRESH_SHOWN_ITEMS = 'REFRESH_SHOWN_ITEMS';
 export const REFRESH_REBIRTH_FRUITS = 'REFRESH_REBIRTH_FRUITS';
+export const SET_STRENGTH_UPGRADES = 'SET_STRENGTH_UPGRADE';
+export const MODIFY_STRENGTH = 'MODIFY_STRENGTH';
+
+export const modifyStrength = (strength) => ({
+  type: MODIFY_STRENGTH,
+  payload: {
+    strength,
+  },
+});
+
+export const setStrengthUpgrades = (strength) => ({
+  type: SET_STRENGTH_UPGRADES,
+  payload: {
+    strength,
+  },
+});
 
 export const refreshRebirthFruits = (fruits) => ({
   type: REFRESH_REBIRTH_FRUITS,

@@ -1,4 +1,4 @@
-import { refreshRebirthFruits } from '../actions/character';
+import { refreshRebirthFruits, setStrengthUpgrades } from '../actions/character';
 import { getAllUpgrades, GET_ALL_UPGRADES, LEVEL_UP_UPGRADE, refreshLvldUpUpgrade, setAllUpgrades, unlockNewUpgrade, updateCurrentUpgrade } from '../actions/upgrades';
 import { logUser } from '../actions/user';
 import API from './api';
@@ -56,7 +56,6 @@ const upgradesMiddleware = (store) => (next) => (action) => {
       API(config)
         .then((response) => {
             if (response.headers.authorization) {
-              console.log(response);
               const newToken = response.headers.authorization;
               const foundName = JSON.parse(localStorage.getItem('name'));
               const foundId = JSON.parse(localStorage.getItem('userId'));
@@ -64,11 +63,27 @@ const upgradesMiddleware = (store) => (next) => (action) => {
               store.dispatch(userAction);
               store.dispatch(refreshRebirthFruits(action.payload.fruits));
               store.dispatch(unlockNewUpgrade(response.data));
-              // store.dispatch(updateCurrentUpgrade(action.payload.id));
-              // store.dispatch(setAllUpgrades(response.data));
-              console.log(response);
-            }
+              const ul = state.upgrades.upgradesList;
+              const currentUpgrade = ul.find((e) => e.id === action.payload.id);
+              console.log(currentUpgrade);
+              const { force, competences } = state.character;
+              // si l'upgrade est pour la force en raw (brut)
+              if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "raw") {
+                const checkPercentStr = competences.find((e) => e.effect_stat === "force" && e.effect_type === "percentage");
+                if (checkPercentStr) {
+                  store.dispatch(setStrengthUpgrades(force + (currentUpgrade.effect * (checkPercentStr.effect + (checkPercentStr.increment_effect * checkPercentStr.level_competence)))));
+                }
+              } else if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "percentage") {
+                // todo gérer quand l'upgrade est en pourcentage ET CHECK D'UPGRADE UN RAW SANS AVOIR DE PERCENTAGE
+              }
+            };
         })
+        /*
+          si 300 de base
+          si upgradeslist find elem.effect_type === raw et effect_stat === force
+          dispatch force + upgrade * (upgradepercent * sonlevel)
+          sinon dispatch force * (upgradepercent effect + incr effect)
+        */
         .catch((error) => {
           console.log(error);
         });

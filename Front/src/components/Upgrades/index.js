@@ -13,8 +13,7 @@ export default function Upgrades() {
   
   useEffect(() => {
     dispatch(getAllUpgrades());
-  }, [])
-  console.log(upgradesList);
+  }, []);
   const upgradeOnClick = (e) => {
     const upgradeId = Number(e.currentTarget.id);
     const targetUpgrade = upgradesList.find((upg) => upg.id === upgradeId);
@@ -24,7 +23,6 @@ export default function Upgrades() {
   const jsxUpgrades = upgradesList.map((upgrade) => {
     if (competences[0] !== null || competences[1] !== undefined) {
       const unlockedUpg = competences.find((upg) => upg.id === upgrade.id);
-      console.log(unlockedUpg);
       if (unlockedUpg) {
         return (
           <div className="upgrades-block" key={uuidv4()}>

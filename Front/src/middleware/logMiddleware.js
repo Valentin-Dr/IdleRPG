@@ -1,5 +1,5 @@
 
-import { setCharacterData } from "../actions/character";
+import { setCharacterData, setStrengthUpgrades } from "../actions/character";
 import { GET_ITEMS } from "../actions/craft";
 import { SUBSCRIBE_USER, LOG_USER, LOGIN_USER, logUser, CHECK_USER, LOGOUT,} from "../actions/user";
 import { getMineNameAndLvl } from '../actions/mining';
@@ -9,6 +9,38 @@ import { getFishNameAndLvl } from '../actions/fishing';
 
 const logMiddleware = (store) => (next) => (action) => {
   const state = store.getState();
+  const calcStrength = (strength, comp) => {
+    // todo character attributes 1 value
+    // check si le joueur a des compétences débloquées
+    if (comp[0] !== null || comp[1] !== undefined) {
+      const strUpg = comp.filter((upg) => upg.effect_stat === "force");
+      if (strUpg.length > 0) {
+        // variable qui va recevoir les données des compétences
+        let newStr = strength;
+        const rawStrUpgrades = strUpg.filter((elem) => elem.effect_type === "raw");
+        const percentStrUpgrades = strUpg.filter((elem) => elem.effect_type === "percentage");
+        if (rawStrUpgrades.length > 0) {
+          rawStrUpgrades.forEach(elem => {
+            console.log("raw");
+            newStr += (elem.effect * elem.level_competence);
+          });
+        };
+        if (percentStrUpgrades.length > 0) {
+          percentStrUpgrades.forEach(elem => {
+            console.log("percentage");
+            if (newStr > 0) {
+              newStr *= (elem.effect + (elem.increment_effect * elem.level_competence));
+            };
+          });
+        };
+        console.log(newStr);
+        return newStr;
+      };
+    } else {
+      console.log("return str de base");
+      return strength;
+    };
+  }
   switch (action.type) {
     case SUBSCRIBE_USER: {
       const config = {
@@ -52,6 +84,7 @@ const logMiddleware = (store) => (next) => (action) => {
       API(config)
         .then((response) => {
           if (response.status === 200) {
+            store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences)));
             store.dispatch(setCharacterData(response.data.character));
             store.dispatch(getMonster(response.data.entities));
             store.dispatch(getNewMonster(false));
@@ -91,6 +124,7 @@ const logMiddleware = (store) => (next) => (action) => {
             store.dispatch(userAction);
           };
           console.log(response.data);
+          store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences)));
           store.dispatch(setCharacterData(response.data.character));
           store.dispatch(getMonster(response.data.entities));
           store.dispatch(getNewMonster());

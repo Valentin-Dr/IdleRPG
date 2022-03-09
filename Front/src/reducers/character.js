@@ -1,7 +1,7 @@
 import { SEND_RESOURCE_TO_INVENTORY } from "../actions/mining";
 import { POSTER_CATEGORY, POSTER_EQUIP, SET_DETAILS,
   CLOSE_DETAILS, UPDATE_EQUIPMENT,UPDATE_VIVRE, SPARE_POINTS, UPDATE_NBR_FIELD,
-  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV, CHANGE_SHOWN_ITEMS_ID, REFRESH_SHOWN_ITEMS, REFRESH_REBIRTH_FRUITS } from '../actions/character';
+  SET_CHARACTER_DATA, BUY_ITEM, EQUIP_ITEM_BACK_TO_INV, CHANGE_SHOWN_ITEMS_INV, CHANGE_SHOWN_ITEMS_ID, REFRESH_SHOWN_ITEMS, REFRESH_REBIRTH_FRUITS, SET_STRENGTH_UPGRADES, MODIFY_STRENGTH } from '../actions/character';
 import { ADD_CRAFTED_ITEM_TO_INVENTORY, SPEND_RESOURCES_FOR_CRAFT } from "../actions/craft";
 import { SEND_BUY_ITEM_TO_DB } from "../actions/shop";
 import {
@@ -36,10 +36,10 @@ const initialState = {
     type: "",
   },
   vie: 60,
-  force: 150,
+  force: 0,
   upgradesForce: 0,
-  endurance: 75,
-  dextérité: 35,
+  endurance: 1,
+  dextérité: 1,
   gold: 6500,
   attackSpeed: 2000,
   points: 50,
@@ -170,7 +170,7 @@ const character = (state = initialState, action = {}) => {
         competences: [
           ...action.data.competences,
         ],
-        force: dataForce,
+        // force: dataForce,
         endurance: dataEndurance,
         dextérité: dataDextérité,
         vie: dataVie.value > 100 ? 100 : dataVie.value,
@@ -181,7 +181,17 @@ const character = (state = initialState, action = {}) => {
         gold:action.data.gold,
         level:action.data.level,
         rebirthFruits: action.data.rebirth_fruit,
-      };  
+      };
+    case SET_STRENGTH_UPGRADES:
+      return {
+        ...state,
+        force: action.payload.strength,
+      };
+    case MODIFY_STRENGTH:
+      return {
+        ...state,
+        force: action.payload.strength,
+      };
     case POSTER_CATEGORY:
       //Afficher les éléments de l'inventaire correspondant à l'onglet sélectionné dans le tableau d'inventaire
       return {
