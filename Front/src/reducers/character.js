@@ -183,9 +183,10 @@ const character = (state = initialState, action = {}) => {
         rebirthFruits: action.data.rebirth_fruit,
       };
     case SET_STRENGTH_UPGRADES:
+      console.log(action.payload.equip);
       return {
         ...state,
-        force: action.payload.strength,
+        force: action.payload.equip.item_id === null ? action.payload.strength : action.payload.strength + action.payload.equip.attributes[0].value,
       };
     case MODIFY_STRENGTH:
       return {
@@ -247,6 +248,7 @@ const character = (state = initialState, action = {}) => {
           item_name: newEquipment.name}
           : equip),
           // La stat modifiée
+          // todo marche pas, essayer de log newequipment
           [newEquipment.attributes[0].name]: findEquip.attributes[0]
           ? state[newEquipment.attributes[0].name] + newEquipment.attributes[0].value - findEquip.attributes[0].value
           : state[newEquipment.attributes[0].name],

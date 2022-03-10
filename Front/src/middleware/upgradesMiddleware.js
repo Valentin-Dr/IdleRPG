@@ -74,6 +74,8 @@ const upgradesMiddleware = (store) => (next) => (action) => {
                   store.dispatch(setStrengthUpgrades(force + (currentUpgrade.effect * (checkPercentStr.effect + (checkPercentStr.increment_effect * checkPercentStr.level_competence)))));
                 }
               } else if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "percentage") {
+                console.log(currentUpgrade.effect + currentUpgrade.increment_effect);
+                store.dispatch(setStrengthUpgrades(force * (currentUpgrade.effect + Number(currentUpgrade.increment_effect))));
                 // todo gérer quand l'upgrade est en pourcentage ET CHECK D'UPGRADE UN RAW SANS AVOIR DE PERCENTAGE
               }
             };

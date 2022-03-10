@@ -84,7 +84,7 @@ const logMiddleware = (store) => (next) => (action) => {
       API(config)
         .then((response) => {
           if (response.status === 200) {
-            store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences)));
+            store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences), response.data.character.equipments[3]));
             store.dispatch(setCharacterData(response.data.character));
             store.dispatch(getMonster(response.data.entities));
             store.dispatch(getNewMonster(false));
@@ -123,8 +123,8 @@ const logMiddleware = (store) => (next) => (action) => {
             const userAction = logUser(newToken, name, id);
             store.dispatch(userAction);
           };
-          console.log(response.data);
-          store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences)));
+          console.log(response.data.character.equipments[3]);
+          store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences), response.data.character.equipments[3]));
           store.dispatch(setCharacterData(response.data.character));
           store.dispatch(getMonster(response.data.entities));
           store.dispatch(getNewMonster());
