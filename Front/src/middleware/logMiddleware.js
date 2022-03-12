@@ -10,7 +10,6 @@ import { getFishNameAndLvl } from '../actions/fishing';
 const logMiddleware = (store) => (next) => (action) => {
   const state = store.getState();
   const calcStrength = (strength, comp) => {
-    // todo character attributes 1 value
     // check si le joueur a des compétences débloquées
     if (comp[0] !== null || comp[1] !== undefined) {
       const strUpg = comp.filter((upg) => upg.effect_stat === "force");
@@ -84,7 +83,11 @@ const logMiddleware = (store) => (next) => (action) => {
       API(config)
         .then((response) => {
           if (response.status === 200) {
-            store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences), response.data.character.equipments[3]));
+            store.dispatch(setStrengthUpgrades(
+              calcStrength(response.data.character.attributes[1].value, response.data.character.competences),
+              response.data.character.equipments[3],
+              response.data.character.force,
+              ));
             store.dispatch(setCharacterData(response.data.character));
             store.dispatch(getMonster(response.data.entities));
             store.dispatch(getNewMonster(false));
@@ -124,7 +127,11 @@ const logMiddleware = (store) => (next) => (action) => {
             store.dispatch(userAction);
           };
           console.log(response.data.character.equipments[3]);
-          store.dispatch(setStrengthUpgrades(calcStrength(response.data.character.attributes[1].value, response.data.character.competences), response.data.character.equipments[3]));
+          store.dispatch(setStrengthUpgrades(
+            calcStrength(response.data.character.attributes[1].value, response.data.character.competences),
+            response.data.character.equipments[3],
+            response.data.character.force,
+            ));
           store.dispatch(setCharacterData(response.data.character));
           store.dispatch(getMonster(response.data.entities));
           store.dispatch(getNewMonster());

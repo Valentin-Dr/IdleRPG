@@ -70,9 +70,11 @@ const upgradesMiddleware = (store) => (next) => (action) => {
               // si l'upgrade est pour la force en raw (brut)
               if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "raw") {
                 const checkPercentStr = competences.find((e) => e.effect_stat === "force" && e.effect_type === "percentage");
-                if (checkPercentStr) {
-                  store.dispatch(setStrengthUpgrades(force + (currentUpgrade.effect * (checkPercentStr.effect + (checkPercentStr.increment_effect * checkPercentStr.level_competence)))));
+                const cpr = checkPercentStr;
+                if (cpr) {
+                  store.dispatch(setStrengthUpgrades(force + (currentUpgrade.effect * (cpr.effect + (Number(cpr.increment_effect) * cpr.level_competence)))));
                 }
+                // si l'upgrade est pour la force en pourcentage
               } else if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "percentage") {
                 console.log(currentUpgrade.effect + currentUpgrade.increment_effect);
                 store.dispatch(setStrengthUpgrades(force * (currentUpgrade.effect + Number(currentUpgrade.increment_effect))));
@@ -80,12 +82,6 @@ const upgradesMiddleware = (store) => (next) => (action) => {
               }
             };
         })
-        /*
-          si 300 de base
-          si upgradeslist find elem.effect_type === raw et effect_stat === force
-          dispatch force + upgrade * (upgradepercent * sonlevel)
-          sinon dispatch force * (upgradepercent effect + incr effect)
-        */
         .catch((error) => {
           console.log(error);
         });

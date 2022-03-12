@@ -36,6 +36,7 @@ const initialState = {
     type: "",
   },
   vie: 60,
+  baseStr: 0,
   force: 0,
   upgradesForce: 0,
   endurance: 1,
@@ -186,6 +187,11 @@ const character = (state = initialState, action = {}) => {
       console.log(action.payload.equip);
       return {
         ...state,
+        // todo faire en sorte que à chaque upgrade
+        // reprend baseStr et rajoute les upgrades par dessus
+        // peut être dans MODIFY STRENGTH
+        // import calcStrength, pour dispatch après un upgrade
+        baseStr: action.payload.baseStr ? action.payload.baseStr : state.baseStr,
         force: action.payload.equip.item_id === null ? action.payload.strength : action.payload.strength + action.payload.equip.attributes[0].value,
       };
     case MODIFY_STRENGTH:
@@ -248,10 +254,9 @@ const character = (state = initialState, action = {}) => {
           item_name: newEquipment.name}
           : equip),
           // La stat modifiée
-          // todo marche pas, essayer de log newequipment
           [newEquipment.attributes[0].name]: findEquip.attributes[0]
           ? state[newEquipment.attributes[0].name] + newEquipment.attributes[0].value - findEquip.attributes[0].value
-          : state[newEquipment.attributes[0].name],
+          : state[newEquipment.attributes[0].name] + newEquipment.attributes[0].value,
         currentlyShown: state.currentlyShown.map((item) => item.item_id === action.item.item_id ? {...item, quantity: item.quantity - 1 } : item),
         selected: "",
       };

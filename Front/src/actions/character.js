@@ -23,11 +23,12 @@ export const modifyStrength = (strength) => ({
   },
 });
 
-export const setStrengthUpgrades = (strength, equip) => ({
+export const setStrengthUpgrades = (strength, equip, baseStr) => ({
   type: SET_STRENGTH_UPGRADES,
   payload: {
     strength,
     equip,
+    baseStr,
   },
 });
 
