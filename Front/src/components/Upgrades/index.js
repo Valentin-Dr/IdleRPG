@@ -23,17 +23,24 @@ export default function Upgrades() {
   const jsxUpgrades = upgradesList.map((upgrade) => {
     if (competences[0] !== null || competences[1] !== undefined) {
       const unlockedUpg = competences.find((upg) => upg.id === upgrade.id);
-      if (unlockedUpg) {
+      // Renommage pour raccourcir les lignes
+      const uU = unlockedUpg;
+      console.log(uU);
+      if (uU) {
         return (
           <div className="upgrades-block" key={uuidv4()}>
-          <h2 className="upgrades-block-title">{unlockedUpg.name}</h2>
-          <div className={unlockedUpg.name.replace(" ", "").toLowerCase()} />
-          <p className="upgrades-block-desc">{unlockedUpg.desc}</p>
-          <h3>Niveau {unlockedUpg.level_competence}</h3>
+          <h2 className="upgrades-block-title">{uU.name}</h2>
+          <div className={uU.name.replace(" ", "").toLowerCase()} />
+          <p className="upgrades-block-desc">{uU.desc}</p>
+          <h3>Niveau {uU.level_competence}</h3>
           <h3>Effets&nbsp;:</h3>
-          <p>{unlockedUpg.effect_stat} {unlockedUpg.effect_type === "percentage" ? "x" : "+"} {(unlockedUpg.effect + (unlockedUpg.increment_effect * unlockedUpg.level_competence) - unlockedUpg.effect)}</p>
-          {/* // todo ajouter onclick */}
-          <button id={unlockedUpg.id} onClick={upgradeOnClick}>{unlockedUpg.cost}<img src={rebirthFruit} alt="fruit de renaissance" /></button>
+          {uU.effect_type === "percentage" && (
+            <p>{uU.effect_stat} x {(uU.effect + (uU.increment_effect * uU.level_competence))}</p>
+          )}
+          {uU.effect_type === "raw" && (
+            <p>{uU.effect_stat} + {(uU.effect + (uU.increment_effect * uU.level_competence) - uU.effect)}</p>
+          )} 
+          <button id={uU.id} onClick={upgradeOnClick}>{uU.cost * (uU.level_competence + 1) * uU.increment_cost}<img src={rebirthFruit} alt="fruit de renaissance" /></button>
           {/* <p>Coût&nbsp;: {upgrade.cost}<img src={rebirthFruit} alt="fruit de renaissance" /></p> */}
         </div>
         )

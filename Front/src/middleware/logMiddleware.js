@@ -6,40 +6,10 @@ import { getMineNameAndLvl } from '../actions/mining';
 import { getMonster, getNewMonster } from '../actions/fight';
 import API from './api';
 import { getFishNameAndLvl } from '../actions/fishing';
+import calcStrength from "../utils/calcStrength";
 
 const logMiddleware = (store) => (next) => (action) => {
   const state = store.getState();
-  const calcStrength = (strength, comp) => {
-    // check si le joueur a des compétences débloquées
-    if (comp[0] !== null || comp[1] !== undefined) {
-      const strUpg = comp.filter((upg) => upg.effect_stat === "force");
-      if (strUpg.length > 0) {
-        // variable qui va recevoir les données des compétences
-        let newStr = strength;
-        const rawStrUpgrades = strUpg.filter((elem) => elem.effect_type === "raw");
-        const percentStrUpgrades = strUpg.filter((elem) => elem.effect_type === "percentage");
-        if (rawStrUpgrades.length > 0) {
-          rawStrUpgrades.forEach(elem => {
-            console.log("raw");
-            newStr += (elem.effect * elem.level_competence);
-          });
-        };
-        if (percentStrUpgrades.length > 0) {
-          percentStrUpgrades.forEach(elem => {
-            console.log("percentage");
-            if (newStr > 0) {
-              newStr *= (elem.effect + (elem.increment_effect * elem.level_competence));
-            };
-          });
-        };
-        console.log(newStr);
-        return newStr;
-      };
-    } else {
-      console.log("return str de base");
-      return strength;
-    };
-  }
   switch (action.type) {
     case SUBSCRIBE_USER: {
       const config = {

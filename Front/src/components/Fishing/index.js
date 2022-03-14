@@ -28,7 +28,7 @@ export default function Fishing({job}) {
     levelUpReq,
   } = useSelector((state) => job === 'mining' ? state.mining : state.fishing);
 
-  const { inventory } = useSelector((state) => state.character);
+  const { inventory, competences } = useSelector((state) => state.character);
 
   const dispatch = useDispatch();
 
@@ -64,9 +64,10 @@ export default function Fishing({job}) {
         // Calculs des quantités et de l'exp
         const quantity = Math.floor((level / 6) + 1);
         const exp = Math.floor(1 + (wr.attribute[0].value / 8));
-        dispatch(sendFishToDb(id, quantity, exp));
-        dispatch(sendResourceToInventory(wr, quantity));
-        dispatch(addLogMessage(exp, quantity));
+        const fishUpgrade = competences.length > 0 && competences.find((el) => el.id === 4) ? competences.find((el) => el.id === 4) : false;
+        dispatch(sendFishToDb(id, fishUpgrade ? quantity + (fishUpgrade.effect * fishUpgrade.level_competence) : quantity, exp));
+        dispatch(sendResourceToInventory(wr, fishUpgrade ? quantity + (fishUpgrade.effect * fishUpgrade.level_competence) : quantity));
+        dispatch(addLogMessage(exp, fishUpgrade ? quantity + (fishUpgrade.effect * fishUpgrade.level_competence) : quantity));
       }, actionTime);
 
       return () => clearInterval(interval)

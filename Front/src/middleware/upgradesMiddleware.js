@@ -1,6 +1,7 @@
 import { refreshRebirthFruits, setStrengthUpgrades } from '../actions/character';
 import { getAllUpgrades, GET_ALL_UPGRADES, LEVEL_UP_UPGRADE, refreshLvldUpUpgrade, setAllUpgrades, unlockNewUpgrade, updateCurrentUpgrade } from '../actions/upgrades';
 import { logUser } from '../actions/user';
+import calcStrength from '../utils/calcStrength';
 import API from './api';
 
 const upgradesMiddleware = (store) => (next) => (action) => {
@@ -60,26 +61,32 @@ const upgradesMiddleware = (store) => (next) => (action) => {
               const foundName = JSON.parse(localStorage.getItem('name'));
               const foundId = JSON.parse(localStorage.getItem('userId'));
               const userAction = logUser(newToken, foundName, foundId);
+              const ul = state.upgrades.upgradesList;
+              const currentUpgrade = ul.find((e) => e.id === action.payload.id);
+              const { baseStr } = state.character;
+              const weapon = state.character.equipments[3];
               store.dispatch(userAction);
               store.dispatch(refreshRebirthFruits(action.payload.fruits));
               store.dispatch(unlockNewUpgrade(response.data));
-              const ul = state.upgrades.upgradesList;
-              const currentUpgrade = ul.find((e) => e.id === action.payload.id);
-              console.log(currentUpgrade);
-              const { force, competences } = state.character;
-              // si l'upgrade est pour la force en raw (brut)
-              if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "raw") {
-                const checkPercentStr = competences.find((e) => e.effect_stat === "force" && e.effect_type === "percentage");
-                const cpr = checkPercentStr;
-                if (cpr) {
-                  store.dispatch(setStrengthUpgrades(force + (currentUpgrade.effect * (cpr.effect + (Number(cpr.increment_effect) * cpr.level_competence)))));
-                }
-                // si l'upgrade est pour la force en pourcentage
-              } else if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "percentage") {
-                console.log(currentUpgrade.effect + currentUpgrade.increment_effect);
-                store.dispatch(setStrengthUpgrades(force * (currentUpgrade.effect + Number(currentUpgrade.increment_effect))));
-                // todo gérer quand l'upgrade est en pourcentage ET CHECK D'UPGRADE UN RAW SANS AVOIR DE PERCENTAGE
-              }
+              if (currentUpgrade.effect_stat === "force") {
+                store.dispatch(setStrengthUpgrades(
+                  calcStrength(baseStr, response.data),
+                  weapon
+                ));
+              };
+              // // si l'upgrade est pour la force en raw (brut)
+              // if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "raw") {
+              //   const checkPercentStr = competences.find((e) => e.effect_stat === "force" && e.effect_type === "percentage");
+              //   const cpr = checkPercentStr;
+              //   if (cpr) {
+              //     store.dispatch(setStrengthUpgrades(force + (currentUpgrade.effect * (cpr.effect + (Number(cpr.increment_effect) * cpr.level_competence)))));
+              //   }
+              //   // si l'upgrade est pour la force en pourcentage
+              // } else if (currentUpgrade.effect_stat === "force" && currentUpgrade.effect_type === "percentage") {
+              //   console.log(currentUpgrade.effect + currentUpgrade.increment_effect);
+              //   store.dispatch(setStrengthUpgrades(force * (currentUpgrade.effect + Number(currentUpgrade.increment_effect))));
+              //   // todo gérer quand l'upgrade est en pourcentage ET CHECK D'UPGRADE UN RAW SANS AVOIR DE PERCENTAGE
+              // }
             };
         })
         .catch((error) => {

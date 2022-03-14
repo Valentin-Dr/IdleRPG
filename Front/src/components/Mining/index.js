@@ -30,7 +30,7 @@ export default function Mining({job}) {
     experiencePercentage,
   } = useSelector((state) => job === 'mining' ? state.mining : state.fishing);
 
-  const { inventory } = useSelector((state) => state.character);
+  const { inventory, competences } = useSelector((state) => state.character);
 
   const dispatch = useDispatch();
 
@@ -66,9 +66,12 @@ export default function Mining({job}) {
         // Calculs des quantités et de l'exp
         const quantity = Math.floor((level / 6) + 1);
         const exp = Math.floor(1 + (wr.attribute[0].value / 8));
-        dispatch(sendOreToDb(id, quantity, exp));
-        dispatch(sendResourceToInventory(wr, quantity));
-        dispatch(addLogMessage(exp, quantity));
+        const mineUpgrade = competences.length > 0 && competences.find((el) => el.id === 3) ? competences.find((el) => el.id === 3) : false;
+        // todo DRY, raccourcir ça
+        // todo faire pareil dans fishing
+        dispatch(sendOreToDb(id, mineUpgrade ? quantity + (mineUpgrade.effect * mineUpgrade.level_competence) : quantity, exp));
+        dispatch(sendResourceToInventory(wr, mineUpgrade ? quantity + (mineUpgrade.effect * mineUpgrade.level_competence) : quantity));
+        dispatch(addLogMessage(exp, mineUpgrade ? quantity + (mineUpgrade.effect * mineUpgrade.level_competence) : quantity));
       }, actionTime);
 
       return () => clearInterval(interval)
